@@ -1,3 +1,15 @@
+## Bugs
+
+* While validating user input values, `len(values)` returns 1 when there has been no input entered.  
+    - Expectation: Since no input has been entered, `len(values)` should return 0.
+    - Solution: ???
+
+
+
+
+
+
+
 ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
 
 Welcome Monique Parnis,
