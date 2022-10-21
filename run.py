@@ -32,10 +32,12 @@ def get_student_name():
           "Example: Picard, Jean-Luc\n")
 
     name_str = input("Enter Student's Full Name: \n").title()
-    # print(f"\nThank you! You are compiling a book list for {name_str}")
+    if not re.search("^[a-zA-Z,.'\- ]+$", name_str):
+        print("This is not a name!")
+    else:
+        print(f"\nThank you! You are compiling a book list for {name_str}")
     name_data = name_str.split(",")
     name_data = [i.strip() for i in name_data]
-    print(len(name_data))
     
     validate_name(name_data)
  
@@ -45,6 +47,7 @@ def validate_name(values):
     Inside the try, checks if there are 2 values with a minimum length of 3
     characters and raises ValueError if not.
     """
+    print(values)
     try:
         if len(values) != 2:
             raise ValueError(
@@ -53,11 +56,12 @@ def validate_name(values):
         if len(min(values)) <= 2:
             raise ValueError(
                 "Input value must be longer than 2 characters. You have "
-                f"entered {len(min(values))} characters for one or both of "
-                "the values"
+                f"entered {len(min(values))} characters for one or both "
+                "of the values"
             )
     except ValueError as e:
         print(f"Invalid data: {e}, please try again.\n")
+
     
 
 get_student_name()
