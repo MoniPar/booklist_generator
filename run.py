@@ -22,46 +22,57 @@ SHEET = GSPREAD_CLIENT.open("book_list")
 def get_student_name():
     """
     Get student's first and last name from the user and converts the string
-    values into a list of values.
+    values into a list of values. Run a while loop to collect a valid string
+    of data from the user.  The loop will repeatedly request data, until it
+    is valid.
     """
-    print("Welcome to BookList Generator!\n")
-    print("In order to run this program efficiently, please enter the correct "
-          "student information when prompted and press the 'Enter' key.\n")
-    print("When entering the student's full name, please start with the "
-          "surname separated by a comma (,) from the name.  "
-          "Example: Picard, Jean-Luc\n")
+    while True:
+        print("Welcome to BookList Generator!\n")
+        print("In order to run this program efficiently, please enter "
+              "the correct student information when prompted and "
+              "press the 'Enter' key.\n")
+        print("When entering the student's full name, please start "
+              "with the surname separated by a comma (,) from the name. "
+              "Example: Picard, Jean-Luc\n")
 
-    name_str = input("Enter Student's Full Name: \n").title()
-    if not re.search("^[a-zA-Z,.'\- ]+$", name_str):
-        print("This is not a name!")
-    else:
-        print(f"\nThank you! You are compiling a book list for {name_str}")
-    name_data = name_str.split(",")
-    name_data = [i.strip() for i in name_data]
+        name_str = input("Enter Student's Full Name: \n").title()
+        
+        name_data = name_str.split(",")
+        name_data = [i.strip() for i in name_data]
+
+        if validate_name(name_str, name_data):
+            print(f"Thank you! You are compiling a booklist for {name_str}.")
+            break
     
-    validate_name(name_data)
+    return name_data
  
 
-def validate_name(values):
+def validate_name(name_str, name_data):
     """
-    Inside the try, checks if there are 2 values with a minimum length of 3
-    characters and raises ValueError if not.
+    Inside the try, checks for string values which meet the requirements for
+    name values and raises TypeError if not. It also checks if there are 2
+    values with a minimum length of 3 characters and raises ValueError if not.
     """
-    print(values)
     try:
-        if len(values) != 2:
+        if not name_str:
+            raise TypeError("No string found!")
+        if not re.search("^[a-zA-Z,.'\- ]+$", name_str):
+            raise TypeError(f"{name_str} is not a name")
+        if len(name_data) != 2:
             raise ValueError(
-                f"Two values are required. You have entered {len(values)}"
+                f"Two values are required. You have entered {len(name_data)}"
             )
-        if len(min(values)) <= 2:
+        if min(len(x) for x in name_data) <= 2:
             raise ValueError(
-                "Input value must be longer than 2 characters. You have "
-                f"entered {len(min(values))} characters for one or both "
-                "of the values"
-            )
+                "Input values must be longer than 2 letters")
+    except TypeError as te:
+        print(f"Invalid string: {te}, please try again.\n")
+        return False
     except ValueError as e:
         print(f"Invalid data: {e}, please try again.\n")
+        return False
 
+    return True
     
 
-get_student_name()
+name = get_student_name()
