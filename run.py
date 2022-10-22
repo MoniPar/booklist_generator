@@ -73,6 +73,18 @@ def validate_name(name_str, name_data):
         return False
 
     return True
-    
 
-name = get_student_name()
+
+def update_student_worksheet(names):
+    """
+    Update student worksheet, add new row with the list data provided.
+    """
+    print("Updating sales worksheet...\n")
+    student_worksheet = SHEET.worksheet("student_list")
+    student_worksheet.append_row(names)
+    print("Student worksheet updated successfully.\n")
+
+
+names = get_student_name()
+name_data = [str(name) for name in names]
+update_student_worksheet(name_data)
