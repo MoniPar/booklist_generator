@@ -129,7 +129,20 @@ ___
     - Expectation: Since no input has been entered, `len(name_data)` should return 0.
     - Solution: after further testing it was found that `len(name_data)` returns a list with an empty string, which is still considered to have a value of 1. This was changed to check for the raw input of the user by using `len(name_str)`, which returned 0. 
 
-  
+* `TypeError: list indices must be integers or slices, not str`
+
+    This error occurred when trying to access the values of keys from the worksheet using the `'Compulsory'` key.  
+    - Expectation: Since the `get_all_records()` method was used to get a list of dictionaries, reading a key by its string rather than index was expected to work.
+    - Solution: In order for this to work, the list had to be indexed using an integer or slice to return individual JSON objects. The code used to do so was taken from [learndatasci.com](https://www.learndatasci.com/solutions/python-typeerror-list-indices-must-be-integers-or-slices-not-str/) 
+    ```
+    for i in range(len(dict_name)):
+        if dict_name[i]['key_name'] == 'value_name':
+            print({dict_name[i]['other_key_name'])
+    ``` 
+
+* 
+
+
 ##### Remaining Bugs
 
 ### Validator Testing
