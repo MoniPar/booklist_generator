@@ -197,6 +197,8 @@ ___
 
 ## Credits
 
+* [Looping through a list of dictionaries](https://stackoverflow.com/questions/51883103/looping-through-a-list-of-dictionaries-to-find-string-match-in-value) - used in `books_total()`
+* [Python Print 2 decimal places](https://pythonguides.com/python-print-2-decimal-places/) used in `books_total()`
 * [The Official Homepage of Python Programming Language](https://www.python.org/)
 * [How to use Python dictionary of dictionaries](https://linuxhint.com/python_dictionary_of_dictionaries/)
 * [Python Programming Language](https://www.geeksforgeeks.org/python-programming-language/?ref=shm)

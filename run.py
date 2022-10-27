@@ -38,7 +38,7 @@ def get_student_name():
         print("\nValidating your input...")
 
         if validate_name(name_str):
-            print(f"Thank you! You are compiling a booklist for {name_str}.\n")
+            print(f"\nThank you! You are compiling a booklist for {name_str}.")
             break
     return name_str
 
@@ -81,17 +81,19 @@ def get_subjects():
     """
     Gets student's optional subjects from user.
     Runs a while loop to collect a valid string of data from the user.
+    The loop repeatedly requests data until it is valid.
     Concatenates the 3 options into one string and returns the string.
     """
     while True:
-        print("Please choose 1 subject from the option lists below.\n")
+        print("\nPlease choose 1 subject from each of the "
+              "option lists below.\n")
         print("Option A: Science or Music.")
         option_a = input("Enter subject here: \n").title()
         print("\nOption B: Business or French.")
         option_b = input("Enter subject here: \n").title()
         print("\nOption C: Engineering or Art.")
         option_c = input("Enter subject here: \n").title()
-        print(f"\nYou have entered {option_a}, {option_b} and {option_c}.")
+        print(f"\nYou have entered {option_a}, {option_b} and {option_c}.\n")
 
         subjects_str = option_a + "," + option_b + "," + option_c
         break
@@ -99,11 +101,12 @@ def get_subjects():
     return subjects_str
 
 
-def create_list(names, subjects):
+def create_list(names, subjects, totals):
     """
-    Creates a list with the names and the subjects and returns the list.
+    Creates a list with the names, optional subjects and total price.
+    Returns the list created.
     """
-    temp_data = names + "," + subjects
+    temp_data = names + "," + subjects + "," + "€" + totals
     temp_data = temp_data.split(",")
     student_data = [i.strip() for i in temp_data]
 
@@ -123,58 +126,52 @@ def update_student_worksheet(student_data):
 def books_total(subjects):
     """
     Checks if given optional subjects exist in worksheet.
-    Prints out the relevant books and prices for both optional and compulsory
+    Prints out the relevant books for both optional and compulsory
     subjects. Works out the total price for the books.
     """
-    book_price = SHEET.worksheet("subject-book-price_list").get_all_records()
-    comp_prices = []
-    comp_total = 0
-    opt_prices = []
-    opt_total = 0
-    total_price = []
-    total_cost = 0
-    # splits the subjects string into a list
+    book_list = SHEET.worksheet("book_list").get_all_records()
+    # splits the subject string into a list
     values = subjects.split(",")
-    print("Retrieving Optional Subjects BookList...\n")
-    # iterates through the list of dictionaries
-    for d in book_price:
-        # iterates through the list of subjects
-        for value in values:
-            # if a value in the list exists as a value for the Subject key
-            if value in d['Subject']:
-                opt_prices.append(d['Price'])
-                print(f"{d['Subject']}: {d['Book']}, {d['Price']}")
-                break
-    # gets the sum of opt_prices
-    opt_total = sum(opt_prices)
-    # formats it to 2 decimal places
-    # taken from https://pythonguides.com/python-print-2-decimal-places/
-    format_opt_total = "{:.2f}".format(opt_total)
-    print(f"Total Price: €{format_opt_total}\n")
+    comp_count = 0
+    opt_count = 0
+    totalcost = 0
+    # iterates through the dicts in the book list
+    for d in book_list:
+        # if the value of Compulsory in the dict is equal to Y
+        if d['Compulsory'] == 'Y':
+            # starts count
+            comp_count += 1
+            # if count is equal to 1 prints "Retrieving..." statement
+            if comp_count == 1:
+                print("Retrieving Compulsory Subjects BookList...\n")
+            # prints each dict's Subject's, Book's, Price's value
+            print(f"{d['Subject']}: {d['Book']}, "
+                  f"€{d['Price']}")
+            # adds the values of Price
+            totalcost += d['Price']
+        else:
+            # if subjects.__contains__(d['Subject']):
+            # iterates through the list of values (user's subjects)
+            for value in values:
+                # if the value is equal to the value of Subject in the dict
+                if value in d['Subject']:
+                    opt_count += 1
+                    if opt_count == 1:
+                        print("\nRetrieving Optional Subjects BookList...\n")
+                    print(f"{d['Subject']}: {d['Book']}, "
+                          f"€{d['Price']}")
+                    totalcost += d['Price']
+    # formats totalcost to 2 decimal places
+    # adapted from https://pythonguides.com/python-print-2-decimal-places/
+    format_totalcost = "{:.2f}".format(totalcost)
+    print("\nCalculating Total Cost of BookList...\n")
+    print(f"Total Cost of BookList: €{format_totalcost}\n")
 
-    print("Retrieving Compulsory Subjects BookList...\n")
-    # iterates through the index of the list of dictionaries
-    for i in range(len(book_price)):
-        # if the values of 'Compulsory' are equal to 'Y'
-        if book_price[i]['Compulsory'] == 'Y':
-            comp_prices.append(book_price[i]['Price'])
-            print(f"{book_price[i]['Subject']}: {book_price[i]['Book']}, "
-                  f" €{book_price[i]['Price']}")
-
-    comp_total = sum(comp_prices)
-    format_comp_total = "{:.2f}".format(comp_total)
-    print(f"Total Price: €{format_comp_total}\n")
-
-    print("Calculating Total Cost of BookList...\n")
-    total_price.append(opt_total)
-    total_price.append(comp_total)
-    total_cost = sum(total_price)
-    format_total_cost = "{:.2f}".format(total_cost)
-    print(f"Total Cost of BookList: €{format_total_cost}\n")
+    return format_totalcost
 
 
 names = get_student_name()
 subjects = get_subjects()
-student_data = create_list(names, subjects)
+totals = books_total(subjects)
+student_data = create_list(names, subjects, totals)
 update_student_worksheet(student_data)
-books_total(subjects)
