@@ -146,7 +146,7 @@ ___
             print(d['other_key_name'])
     ```
 
-*   While working on the loop in the `books_total` function, the Retrieving Compulsory and Optional Subjects print statements were being printed multiple times.  They needed to be written within the loop to notify the user of the steps taken by the program. 
+* While working on the loop in the `books_total` function, the Retrieving Compulsory and Optional Subjects print statements were being printed multiple times.  They needed to be written within the loop to notify the user of the steps taken by the program. 
     - Solution: A count was added within each 'if statement' in the loop to count the iterations.  Another 'if statement' was added so that the Retrieving... print statement was printed only when the count is equal to 1. The aforementioned print statements were then only printed once.
     ```
     comp_count = 0
@@ -157,6 +157,22 @@ ___
                 print("Retrieving Compulsory Subjects...\n")
             print(f"d['Subject']...")
     ```
+
+* Checking if name input has already been entered in the worksheet.
+    - Expectation: The following code (in the validate_name function) was expected to check if the values in 'Surname' and 'Name' matched those given by the user in `name_data`.  
+    ```
+    for d in student_list:
+        if (d.['Surname'] and d.['Name']) in name_data:
+            raise ValueError()
+    ```
+    This was able to raise the error when both surname and name were already in the worksheet.  E.g. King, Stephen, when King, Stephen was already in the worksheet. No error was raised when King, Stefan was entered. However, it raised the error when it matched a name in the worksheet even though the surname was different. E.g. King, James, when the names King, Stephen and Herbert, James were in the worksheet. 
+    - Solution: The aforementioned testing showed that the above code wasn't matching against the values within the same dictionary. Eventually, I came across this a solution on [Stackoverflow](https://stackoverflow.com/questions/24204087/how-to-get-multiple-dictionary-values), which was adapted for the name validation function.
+    ```
+    for d in student_list:
+            if [d.get(k) for k in ['Surname', 'Name']] == name_data:
+                raise ValueError()
+    ```
+    This gets the values of the 'Surname' and 'Name' keys from within the same dictionary and checks them against the user input list(name_data). 
 
 ##### Remaining Bugs
 
@@ -215,6 +231,7 @@ ___
 * [Looping through a list of dictionaries](https://stackoverflow.com/questions/51883103/looping-through-a-list-of-dictionaries-to-find-string-match-in-value) - used in `books_total()`
 * [Python Print 2 decimal places](https://pythonguides.com/python-print-2-decimal-places/) used in `books_total()`
 * [Python string contains](https://www.digitalocean.com/community/tutorials/python-string-contains) - used in `validate_subjects()`
+* [How to get multiple dictionary values](https://stackoverflow.com/questions/24204087/how-to-get-multiple-dictionary-values) used in `validate_name()`
 * [The Official Homepage of Python Programming Language](https://www.python.org/)
 * [How to use Python dictionary of dictionaries](https://linuxhint.com/python_dictionary_of_dictionaries/)
 * [Python Programming Language](https://www.geeksforgeeks.org/python-programming-language/?ref=shm)

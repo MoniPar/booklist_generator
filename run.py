@@ -26,7 +26,6 @@ def get_student_name():
     The loop repeatedly requests data, until it is valid.
     """
     while True:
-        print("Welcome to BookList Generator!\n")
         print("In order to run this program efficiently, please enter "
               "the correct student information when prompted and "
               "press the 'Enter' key.\n")
@@ -36,9 +35,9 @@ def get_student_name():
 
         name_str = input("Enter Student's Full Name: \n").title()
         print("\nValidating your input...")
-
+        
         if validate_name(name_str):
-            print(f"\nThank you! You are compiling a booklist for {name_str}.")
+            print(f"\nThank you! You are compiling a booklist for {name_str}")
             break
     return name_str
 
@@ -51,6 +50,7 @@ def validate_name(name_str):
     Checks for 2 values with a minimum length of 3 characters and raises
     ValueError if not.
     """
+    student_list = SHEET.worksheet("student_list").get_all_records()
     try:
         # if user has not inserted an input 
         if not name_str:
@@ -72,6 +72,12 @@ def validate_name(name_str):
         if min(len(x) for x in name_data) <= 2:
             raise ValueError(
                 "Input values must be longer than 2 characters")
+        # if the values have already been written in the worksheet
+        # https://stackoverflow.com/questions/24204087/how-to-get-multiple-dictionary-values
+        for d in student_list:
+            if [d.get(k) for k in ['Surname', 'Name']] == name_data:
+                print(d['Surname'], d['Name'])
+                raise ValueError(f"{name_str} has already been entered")
     except TypeError as te:
         print(f"Invalid string: {te}, please try again.\n")
         return False
@@ -209,4 +215,5 @@ def main():
     update_student_worksheet(student_data)
 
 
+print("Welcome to BookList Generator!\n")
 main()
