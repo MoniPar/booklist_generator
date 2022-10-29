@@ -52,18 +52,23 @@ def validate_name(name_str):
     ValueError if not.
     """
     try:
+        # if user has not inserted an input 
         if not name_str:
             raise TypeError("No string found!")
+        # if input inserted has other characters other than alpha, comma(,),
+        # period(.), apostrophe(') or hyphen(-) 
         if not re.search(r"^[a-zA-Z,.'\- ]+$", name_str):
             raise TypeError(f"{name_str} is not a name")
-        # splits a string at the commas, into a list
+        # splits a string at the commas, into a list of strings
         name_data = name_str.split(",")
-        # strips any leading or trailing spaces from the string
+        # strips any leading or trailing spaces from the strings
         name_data = [i.strip() for i in name_data]
+        # if the list does not contain 2 values
         if len(name_data) != 2:
             raise ValueError(
                 f"Two values are required. You have entered {len(name_data)}"
             )
+        # if the length of the values is less than 3 characters
         if min(len(x) for x in name_data) <= 2:
             raise ValueError(
                 "Input values must be longer than 2 characters")
@@ -89,16 +94,40 @@ def get_subjects():
               "option lists below.\n")
         print("Option A: Science or Music.")
         option_a = input("Enter subject here: \n").title()
-        print("\nOption B: Business or French.")
-        option_b = input("Enter subject here: \n").title()
-        print("\nOption C: Engineering or Art.")
-        option_c = input("Enter subject here: \n").title()
-        print(f"\nYou have entered {option_a}, {option_b} and {option_c}.\n")
+        if validate_subjects(option_a, "Science, Music"):
+            print("\nOption B: Business or French.")
+            option_b = input("Enter subject here: \n").title()
+            if validate_subjects(option_b, "Business, French"):
+                print("\nOption C: Engineering or Art.")
+                option_c = input("Enter subject here: \n").title()
+                if validate_subjects(option_c, "Engineering, Art"):
+                    print(f"\nYou have entered {option_a}, {option_b} "
+                          f"and {option_c}.\n")
 
-        subjects_str = option_a + "," + option_b + "," + option_c
-        break
+                    subjects_str = option_a + "," + option_b + "," + option_c
+                    break
 
     return subjects_str
+
+
+def validate_subjects(user_value, option_str):
+    """
+    Inside the try, checks for user input and raises a ValueError if option
+    string does not contain the user input.
+    """
+    try:
+        if not user_value:
+            raise ValueError("No string found!")
+        # .__contains__ is an instance method which checks whether the string 
+        # object contains the specified string object and returns a boolean. 
+        # https://www.digitalocean.com/community/tutorials/python-string-contains
+        if not option_str.__contains__(user_value):
+            raise ValueError(f"{user_value} is not an option!")
+    except ValueError as e:
+        print(f"Invalid string: {e}, please try again.\n")
+        return False
+
+    return True
 
 
 def create_list(names, subjects, totals):
@@ -150,7 +179,6 @@ def books_total(subjects):
             # adds the values of Price
             totalcost += d['Price']
         else:
-            # if subjects.__contains__(d['Subject']):
             # iterates through the list of values (user's subjects)
             for value in values:
                 # if the value is equal to the value of Subject in the dict
@@ -170,8 +198,15 @@ def books_total(subjects):
     return format_totalcost
 
 
-names = get_student_name()
-subjects = get_subjects()
-totals = books_total(subjects)
-student_data = create_list(names, subjects, totals)
-update_student_worksheet(student_data)
+def main():
+    """
+    Runs all program functions
+    """
+    names = get_student_name()
+    subjects = get_subjects()
+    totals = books_total(subjects)
+    student_data = create_list(names, subjects, totals)
+    update_student_worksheet(student_data)
+
+
+main()

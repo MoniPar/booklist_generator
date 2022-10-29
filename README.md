@@ -133,15 +133,30 @@ ___
 
     This error occurred when trying to access the values of keys from the worksheet using the `'Compulsory'` key.  
     - Expectation: Since the `get_all_records()` method was used to get a list of dictionaries, reading a key by its string rather than index was expected to work.
-    - Solution: In order for this to work, the list had to be indexed using an integer or slice to return individual JSON objects. The code used to do so was taken from [learndatasci.com](https://www.learndatasci.com/solutions/python-typeerror-list-indices-must-be-integers-or-slices-not-str/) 
+    - Solution: In order for this to work, the list had to be indexed using an integer or slice to return individual JSON objects. The code used to do so was adapted from [learndatasci.com](https://www.learndatasci.com/solutions/python-typeerror-list-indices-must-be-integers-or-slices-not-str/) 
     ```
     for i in range(len(dict_name)):
         if dict_name[i]['key_name'] == 'value_name':
-            print({dict_name[i]['other_key_name'])
+            print(dict_name[i]['other_key_name'])
     ``` 
+    - Revised Solution: Eventually I came across this [Stackoverflow](https://stackoverflow.com/questions/51883103/looping-through-a-list-of-dictionaries-to-find-string-match-in-value) post, which provided a more readable and less bulky way to write the loop and read the key values. 
+    ```
+    for d in dict_name:
+        if d['key_name'] == 'value_name':
+            print(d['other_key_name'])
+    ```
 
-* 
-
+*   While working on the loop in the `books_total` function, the Retrieving Compulsory and Optional Subjects print statements were being printed multiple times.  They needed to be written within the loop to notify the user of the steps taken by the program. 
+    - Solution: A count was added within each 'if statement' in the loop to count the iterations.  Another 'if statement' was added so that the Retrieving... print statement was printed only when the count is equal to 1. The aforementioned print statements were then only printed once.
+    ```
+    comp_count = 0
+    for d in book_list:
+        if d['Compulsory'] == 'Y':
+            comp_count = comp_count + 1
+            if comp_count == 1:
+                print("Retrieving Compulsory Subjects...\n")
+            print(f"d['Subject']...")
+    ```
 
 ##### Remaining Bugs
 
@@ -199,6 +214,7 @@ ___
 
 * [Looping through a list of dictionaries](https://stackoverflow.com/questions/51883103/looping-through-a-list-of-dictionaries-to-find-string-match-in-value) - used in `books_total()`
 * [Python Print 2 decimal places](https://pythonguides.com/python-print-2-decimal-places/) used in `books_total()`
+* [Python string contains](https://www.digitalocean.com/community/tutorials/python-string-contains) - used in `validate_subjects()`
 * [The Official Homepage of Python Programming Language](https://www.python.org/)
 * [How to use Python dictionary of dictionaries](https://linuxhint.com/python_dictionary_of_dictionaries/)
 * [Python Programming Language](https://www.geeksforgeeks.org/python-programming-language/?ref=shm)
