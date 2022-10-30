@@ -26,10 +26,7 @@ def get_student_name():
     The loop repeatedly requests data, until it is valid.
     """
     while True:
-        print("In order to run this program efficiently, please enter "
-              "the correct student information when prompted and "
-              "press the 'Enter' key.\n")
-        print("When entering the student's full name, please start "
+        print("\nWhen entering the student's full name, please start "
               "with the surname separated by a comma (,) from the name. "
               "Example: Picard, Jean-Luc\n")
 
@@ -50,7 +47,7 @@ def validate_name(name_str):
     Checks for 2 values with a minimum length of 3 characters and raises
     ValueError if not.
     """
-    student_list = SHEET.worksheet("student_list").get_all_records()
+    student_ws = SHEET.worksheet("student_list").get_all_records()
     try:
         # if user has not inserted an input 
         if not name_str:
@@ -74,10 +71,23 @@ def validate_name(name_str):
                 "Input values must be longer than 2 characters")
         # if the values have already been written in the worksheet
         # https://stackoverflow.com/questions/24204087/how-to-get-multiple-dictionary-values
-        for d in student_list:
+        for d in student_ws:
             if [d.get(k) for k in ['Surname', 'Name']] == name_data:
-                print(d['Surname'], d['Name'])
-                raise ValueError(f"{name_str} has already been entered")
+                # print(d['Surname'], d['Name'])
+                # raise ValueError(f"{name_str} has already been entered")
+                # duplicate_name(name_str)
+                print(f"\nLooks like {name_str} has already been "
+                      "entered in the worksheet.")
+                choice = input("\nWould you like to create a booklist "
+                               f"for another {name_str}? (Y/N)\n").capitalize()
+                if choice == 'Y':
+                    return True
+                elif choice == 'N':
+                    return False
+                else:
+                    raise TypeError("Only Y or N is accepted. You have "
+                                    f"entered '{choice}'")
+                    
     except TypeError as te:
         print(f"Invalid string: {te}, please try again.\n")
         return False
@@ -230,4 +240,7 @@ def main():
 
 
 print("Welcome to BookList Generator!\n")
+print("In order to run this program efficiently, please enter "
+      "the correct student information when prompted and "
+      "press the 'Enter' key.\n")
 main()
