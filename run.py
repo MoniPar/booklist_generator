@@ -125,7 +125,7 @@ def validate_subjects(user_value, option_str):
         if not user_value:
             raise ValueError("No string found!")
         # .__contains__ is an instance method which checks whether the string 
-        # object contains the specified string object and returns a boolean. 
+        # object contains the specified string object and returns a boolean.
         # https://www.digitalocean.com/community/tutorials/python-string-contains
         if not option_str.__contains__(user_value):
             raise ValueError(f"{user_value} is not an option!")
@@ -136,12 +136,25 @@ def validate_subjects(user_value, option_str):
     return True
 
 
-def create_list(names, subjects, totals):
+def add_student_id():
+    """
+    Adds an id no. for each student's entry in the worksheet by 
+    iterating over the number of entries and adding 1 to each.
+    """
+    student_ws = SHEET.worksheet("student_list").get_all_values()
+    num = 0
+    for i in student_ws:
+        num += 1
+        entry = str(num)
+    return entry
+
+
+def create_list(entry, names, subjects, totals):
     """
     Creates a list with the names, optional subjects and total price.
     Returns the list created.
     """
-    temp_data = names + "," + subjects + "," + "€" + totals
+    temp_data = entry + "," + names + "," + subjects + "," + "€" + totals
     temp_data = temp_data.split(",")
     student_data = [i.strip() for i in temp_data]
 
@@ -153,8 +166,8 @@ def update_student_worksheet(student_data):
     Updates student worksheet, adds new row with the list data provided.
     """
     print("Updating student worksheet...\n")
-    student_worksheet = SHEET.worksheet("student_list")
-    student_worksheet.append_row(student_data)
+    student_ws = SHEET.worksheet("student_list")
+    student_ws.append_row(student_data)
     print("Student worksheet updated successfully.\n")
 
 
@@ -164,14 +177,14 @@ def books_total(subjects):
     Prints out the relevant books for both optional and compulsory
     subjects. Works out the total price for the books.
     """
-    book_list = SHEET.worksheet("book_list").get_all_records()
+    book_ws = SHEET.worksheet("book_list").get_all_records()
     # splits the subject string into a list
     values = subjects.split(",")
     comp_count = 0
     opt_count = 0
     totalcost = 0
-    # iterates through the dicts in the book list
-    for d in book_list:
+    # iterates through the dicts in the book worksheet
+    for d in book_ws:
         # if the value of Compulsory in the dict is equal to Y
         if d['Compulsory'] == 'Y':
             # starts count
@@ -211,7 +224,8 @@ def main():
     names = get_student_name()
     subjects = get_subjects()
     totals = books_total(subjects)
-    student_data = create_list(names, subjects, totals)
+    entry = add_student_id()
+    student_data = create_list(entry, names, subjects, totals)
     update_student_worksheet(student_data)
 
 
