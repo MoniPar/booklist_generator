@@ -1,8 +1,11 @@
 # module re
 import re
+# module sys
+import sys
 # module gspread
 import gspread
 from google.oauth2.service_account import Credentials
+
 
 # Defines the scope
 SCOPE = [
@@ -32,7 +35,7 @@ def get_student_name():
 
         name_str = input("Enter Student's Full Name: \n").title()
         print("\nValidating your input...")
-        
+
         if validate_name(name_str):
             print(f"\nThank you! You are compiling a booklist for {name_str}")
             break
@@ -49,11 +52,11 @@ def validate_name(name_str):
     """
     student_ws = SHEET.worksheet("student_list").get_all_records()
     try:
-        # if user has not inserted an input 
+        # if user has not inserted an input
         if not name_str:
             raise TypeError("No string found!")
         # if input inserted has other characters other than alpha, comma(,),
-        # period(.), apostrophe(') or hyphen(-) 
+        # period(.), apostrophe(') or hyphen(-)
         if not re.search(r"^[a-zA-Z,.'\- ]+$", name_str):
             raise TypeError(f"{name_str} is not a name")
         # splits a string at the commas, into a list of strings
@@ -87,12 +90,11 @@ def validate_name(name_str):
                 else:
                     raise TypeError("Only Y or N is accepted. You have "
                                     f"entered '{choice}'")
-                    
     except TypeError as te:
-        print(f"Invalid string: {te}, please try again.\n")
+        print(f"\nInvalid string: {te}, please try again.\n")
         return False
     except ValueError as e:
-        print(f"Invalid data: {e}, please try again.\n")
+        print(f"\nInvalid data: {e}, please try again.\n")
         return False
 
     return True
@@ -134,7 +136,7 @@ def validate_subjects(user_value, option_str):
     try:
         if not user_value:
             raise ValueError("No string found!")
-        # .__contains__ is an instance method which checks whether the string 
+        # .__contains__ is an instance method which checks whether the string
         # object contains the specified string object and returns a boolean.
         # https://www.digitalocean.com/community/tutorials/python-string-contains
         if not option_str.__contains__(user_value):
@@ -148,12 +150,12 @@ def validate_subjects(user_value, option_str):
 
 def add_student_id():
     """
-    Adds an id no. for each student's entry in the worksheet by 
+    Adds an id no. for each student's entry in the worksheet by
     iterating over the number of entries and adding 1 to each.
     """
     student_ws = SHEET.worksheet("student_list").get_all_values()
     num = 0
-    for i in student_ws:
+    for d in student_ws:
         num += 1
         entry = str(num)
     return entry
@@ -179,6 +181,7 @@ def update_student_worksheet(student_data):
     student_ws = SHEET.worksheet("student_list")
     student_ws.append_row(student_data)
     print("Student worksheet updated successfully.\n")
+    menu()
 
 
 def books_total(subjects):
@@ -227,6 +230,61 @@ def books_total(subjects):
     return format_totalcost
 
 
+def menu():
+    """
+    Gives the user the option to select other features of the program.
+    """
+    print("What would you like to do next?\n")
+    choice = input(" Add another student entry: A\n "
+                   "Get the number of students in the worksheet: S\n "
+                   "Get the number of options chosen: O\n"
+                   " Exit program: X\n").strip()
+    while True:
+        if choice.capitalize() == 'A':
+            main()
+        elif choice.capitalize() == 'S':
+            get_num_of_student_list()
+        elif choice.capitalize() == "O":
+            get_num_of_opt()
+        elif choice.capitalize() == "X":
+            # https://learnpython.com/blog/end-python-script/#:~:text=Ctrl%20%2B%20C%20on%20Windows%20can,ends%20and%20raises%20an%20exception.
+            sys.exit("\nYou have chosen to exit BookList Generator. "
+                     "GoodBye!")
+        else:
+            print(f"{choice} is not one of the selections.")
+            continue
+
+
+def get_num_of_student_list():
+    """"
+    Gets the total number of students already added to the worksheet.
+    """
+    student_ws = SHEET.worksheet("student_list").get_all_values()
+    student_num = (len(student_ws) - 1)
+    print(f"\nThere are currently {student_num} students listed in "
+          "the worksheet.")
+    menu()
+
+
+def get_num_of_opt():
+    """
+    Gets the total number of each optional subject chosen.
+    """
+    print("\nFetching the number of students taking each option...\n")
+    sdt_ws = SHEET.worksheet("student_list").get_all_records()
+
+    science = sum(d.get('Option A') == 'Science' for d in sdt_ws)
+    music = sum(d.get('Option A') == 'Music' for d in sdt_ws)
+    business = sum(d.get('Option B') == 'Business' for d in sdt_ws)
+    french = sum(d.get('Option B') == 'French' for d in sdt_ws)
+    engineering = sum(d.get('Option C') == 'Engineering' for d in sdt_ws)
+    art = sum(d.get('Option C') == 'Art' for d in sdt_ws)
+    print(f"Science: {science}, Music: {music}")
+    print(f"Business: {business}, French: {french}")
+    print(f"Engineering: {engineering}, Art: {art}")
+    menu()
+
+
 def main():
     """
     Runs all program functions
@@ -239,7 +297,7 @@ def main():
     update_student_worksheet(student_data)
 
 
-print("Welcome to BookList Generator!\n")
+print("\nWelcome to BookList Generator!\n")
 print("In order to run this program efficiently, please enter "
       "the correct student information when prompted and "
       "press the 'Enter' key.\n")
