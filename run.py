@@ -1,8 +1,5 @@
-# module re
 import re
-# module sys
 import sys
-# module gspread
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -82,10 +79,10 @@ def validate_name(name_str):
                 print(f"\nLooks like {name_str} has already been "
                       "entered in the worksheet.")
                 choice = input("\nWould you like to create a booklist "
-                               f"for another {name_str}? (Y/N)\n").capitalize()
-                if choice == 'Y':
+                               f"for another {name_str}? (Y/N)\n").strip()
+                if choice.capitalize() == 'Y':
                     return True
-                elif choice == 'N':
+                elif choice.capitalize() == 'N':
                     return False
                 else:
                     raise TypeError("Only Y or N is accepted. You have "
@@ -240,19 +237,23 @@ def menu():
                    "Get the number of options chosen: O\n"
                    " Exit program: X\n").strip()
     while True:
-        if choice.capitalize() == 'A':
-            main()
-        elif choice.capitalize() == 'S':
-            get_num_of_student_list()
-        elif choice.capitalize() == "O":
-            get_num_of_opt()
-        elif choice.capitalize() == "X":
-            # https://learnpython.com/blog/end-python-script/#:~:text=Ctrl%20%2B%20C%20on%20Windows%20can,ends%20and%20raises%20an%20exception.
-            sys.exit("\nYou have chosen to exit BookList Generator. "
-                     "GoodBye!")
-        else:
-            print(f"{choice} is not one of the selections.")
-            continue
+        try:
+            if choice.capitalize() == 'A':
+                main()
+            elif choice.capitalize() == 'S':
+                get_num_of_student_list()
+            elif choice.capitalize() == "O":
+                get_num_of_opt()
+            elif choice.capitalize() == "X":
+                # https://learnpython.com/blog/end-python-script/#:~:text=Ctrl%20%2B%20C%20on%20Windows%20can,ends%20and%20raises%20an%20exception.
+                sys.exit("\nYou have chosen to exit BookList Generator. "
+                         "GoodBye!")
+            else:
+                raise ValueError(f"{choice} is not one of the selections")
+        except ValueError as e:
+            print(f"Invalid string: {e}, please try again.\n")
+            return False
+    return True
 
 
 def get_num_of_student_list():
@@ -262,7 +263,7 @@ def get_num_of_student_list():
     student_ws = SHEET.worksheet("student_list").get_all_values()
     student_num = (len(student_ws) - 1)
     print(f"\nThere are currently {student_num} students listed in "
-          "the worksheet.")
+          "the worksheet.\n")
     menu()
 
 
@@ -281,7 +282,7 @@ def get_num_of_opt():
     art = sum(d.get('Option C') == 'Art' for d in sdt_ws)
     print(f"Science: {science}, Music: {music}")
     print(f"Business: {business}, French: {french}")
-    print(f"Engineering: {engineering}, Art: {art}")
+    print(f"Engineering: {engineering}, Art: {art}\n")
     menu()
 
 
@@ -297,7 +298,7 @@ def main():
     update_student_worksheet(student_data)
 
 
-print("\nWelcome to BookList Generator!\n")
+print("Welcome to BookList Generator!\n")
 print("In order to run this program efficiently, please enter "
       "the correct student information when prompted and "
       "press the 'Enter' key.\n")
