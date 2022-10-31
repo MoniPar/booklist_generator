@@ -1,6 +1,7 @@
 import re
 import sys
 import gspread
+from rich import print
 from google.oauth2.service_account import Credentials
 
 
@@ -137,9 +138,9 @@ def validate_subjects(user_value, option_str):
         # object contains the specified string object and returns a boolean.
         # https://www.digitalocean.com/community/tutorials/python-string-contains
         if not option_str.__contains__(user_value):
-            raise ValueError(f"{user_value} is not an option!")
+            raise ValueError(f"{user_value} is not an option")
     except ValueError as e:
-        print(f"Invalid string: {e}, please try again.\n")
+        print(f"Invalid data: {e}, please try again.\n")
         return False
 
     return True
@@ -298,8 +299,8 @@ def main():
     update_student_worksheet(student_data)
 
 
-print("Welcome to BookList Generator!\n")
-print("In order to run this program efficiently, please enter "
-      "the correct student information when prompted and "
-      "press the 'Enter' key.\n")
+print("Welcome to [bold yellow]BookList Generator![/bold yellow]\n")
+print("In order to run this program efficiently, "
+      "please enterthe correct student information "
+      "when prompted and press the 'Enter' key.\n")
 main()
