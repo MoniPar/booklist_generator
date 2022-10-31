@@ -1,7 +1,6 @@
 import re
 import sys
 import gspread
-from rich import print
 from google.oauth2.service_account import Credentials
 
 
