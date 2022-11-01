@@ -1,6 +1,7 @@
 import re
 import sys
 import gspread
+from rich import print
 from google.oauth2.service_account import Credentials
 
 
@@ -170,17 +171,6 @@ def create_list(entry, names, subjects, totals):
     return student_data
 
 
-def update_student_worksheet(student_data):
-    """
-    Updates student worksheet, adds new row with the list data provided.
-    """
-    print("Updating student worksheet...\n")
-    student_ws = SHEET.worksheet("student_list")
-    student_ws.append_row(student_data)
-    print("Student worksheet updated successfully.\n")
-    menu()
-
-
 def books_total(subjects):
     """
     Checks if given optional subjects exist in worksheet.
@@ -253,7 +243,18 @@ def menu():
         except ValueError as e:
             print(f"Invalid string: {e}, please try again.\n")
             return False
-    return True
+        return True
+
+
+def update_student_worksheet(student_data):
+    """
+    Updates student worksheet, adds new row with the list data provided.
+    """
+    print("Updating student worksheet...\n")
+    student_ws = SHEET.worksheet("student_list")
+    student_ws.append_row(student_data)
+    print("Student worksheet updated successfully.\n")
+    menu()
 
 
 def get_num_of_student_list():
@@ -300,6 +301,6 @@ def main():
 
 print("Welcome to [bold yellow]BookList Generator![/bold yellow]\n")
 print("In order to run this program efficiently, "
-      "please enterthe correct student information "
-      "when prompted and press the 'Enter' key.\n")
+      "please enter the correct information when "
+      "prompted and press the 'Enter' key.\n")
 main()
