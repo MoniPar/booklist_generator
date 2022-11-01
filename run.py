@@ -106,7 +106,9 @@ def get_subjects():
     """
 
     print("\nPlease choose 1 subject from each of the "
-          "option lists below.\n")
+          "option lists below. You can enter the first "
+          "three letters of the subject chosen "
+          "e.g. 'sci' for 'science'\n")
 
     while True:
         print("Option A: Science or Music.")
@@ -140,13 +142,13 @@ def validate_subjects(user_value, option_str):
     try:
         if not user_value:
             raise ValueError("No string found!")
-        # .__contains__ is an instance method which checks whether the string
-        # object contains the specified string object and returns a boolean.
-        # https://www.digitalocean.com/community/tutorials/python-string-contains
-        if not option_str.__contains__(user_value):
+        if len(user_value) <= 2:
+            raise ValueError(
+                "Input values must be longer than 2 characters")
+        if user_value not in option_str:
             raise ValueError(f"{user_value} is not an option")
     except ValueError as e:
-        print(f"Invalid data: {e}, please try again.\n")
+        print(f"Invalid data: {e}. Please try again.\n")
         return False
 
     return True
@@ -279,12 +281,12 @@ def get_num_of_opt():
     print("\nFetching the number of students taking each option...\n")
     sdt_ws = SHEET.worksheet("student_list").get_all_records()
 
-    science = sum(d.get('Option A') == 'Science' for d in sdt_ws)
-    music = sum(d.get('Option A') == 'Music' for d in sdt_ws)
-    business = sum(d.get('Option B') == 'Business' for d in sdt_ws)
-    french = sum(d.get('Option B') == 'French' for d in sdt_ws)
-    engineering = sum(d.get('Option C') == 'Engineering' for d in sdt_ws)
-    art = sum(d.get('Option C') == 'Art' for d in sdt_ws)
+    science = sum(d.get('Option A') in 'Science' for d in sdt_ws)
+    music = sum(d.get('Option A') in 'Music' for d in sdt_ws)
+    business = sum(d.get('Option B') in 'Business' for d in sdt_ws)
+    french = sum(d.get('Option B') in 'French' for d in sdt_ws)
+    engineering = sum(d.get('Option C') in 'Engineering' for d in sdt_ws)
+    art = sum(d.get('Option C') in 'Art' for d in sdt_ws)
     print(f"Science: {science}, Music: {music}")
     print(f"Business: {business}, French: {french}")
     print(f"Engineering: {engineering}, Art: {art}\n")
