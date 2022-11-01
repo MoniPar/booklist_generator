@@ -104,23 +104,30 @@ def get_subjects():
     The loop repeatedly requests data until it is valid.
     Concatenates the 3 options into one string and returns the string.
     """
+
+    print("\nPlease choose 1 subject from each of the "
+          "option lists below.\n")
+
     while True:
-        print("\nPlease choose 1 subject from each of the "
-              "option lists below.\n")
         print("Option A: Science or Music.")
         option_a = input("Enter subject here: \n").title()
         if validate_subjects(option_a, "Science, Music"):
-            print("\nOption B: Business or French.")
-            option_b = input("Enter subject here: \n").title()
-            if validate_subjects(option_b, "Business, French"):
-                print("\nOption C: Engineering or Art.")
-                option_c = input("Enter subject here: \n").title()
-                if validate_subjects(option_c, "Engineering, Art"):
-                    print(f"\nYou have entered {option_a}, {option_b} "
-                          f"and {option_c}.\n")
+            break
+    while True:
+        print("\nOption B: Business or French.")
+        option_b = input("Enter subject here: \n").title()
+        if validate_subjects(option_b, "Business, French"):
+            break
+    while True:
+        print("\nOption C: Engineering or Art.")
+        option_c = input("Enter subject here: \n").title()
+        if validate_subjects(option_c, "Engineering, Art"):
+            break
 
-                    subjects_str = option_a + "," + option_b + "," + option_c
-                    break
+    print(f"\nYou have entered {option_a}, {option_b} "
+          f"and {option_c}.\n")
+
+    subjects_str = option_a + "," + option_b + "," + option_c
 
     return subjects_str
 
@@ -221,28 +228,26 @@ def menu():
     Gives the user the option to select other features of the program.
     """
     print("What would you like to do next?\n")
-    choice = input(" Add another student entry: A\n "
-                   "Get the number of students in the worksheet: S\n "
-                   "Get the number of options chosen: O\n"
+    choice = input(" Add another student entry: 1\n "
+                   "Get the number of students in the worksheet: 2\n "
+                   "Get the number of options chosen: 3\n"
                    " Exit program: X\n").strip()
-    while True:
-        try:
-            if choice.capitalize() == 'A':
-                main()
-            elif choice.capitalize() == 'S':
-                get_num_of_student_list()
-            elif choice.capitalize() == "O":
-                get_num_of_opt()
-            elif choice.capitalize() == "X":
-                # https://learnpython.com/blog/end-python-script/#:~:text=Ctrl%20%2B%20C%20on%20Windows%20can,ends%20and%20raises%20an%20exception.
-                sys.exit("\nYou have chosen to exit BookList Generator. "
-                         "GoodBye!")
-            else:
-                raise ValueError(f"{choice} is not one of the selections")
-        except ValueError as e:
-            print(f"Invalid string: {e}, please try again.\n")
-            return False
-        return True
+
+    if choice == '1':
+        main()
+    elif choice == '2':
+        get_num_of_student_list()
+    elif choice == "3":
+        get_num_of_opt()
+    elif choice.capitalize() == "X":
+        # https://learnpython.com/blog/end-python-script/#:~:text=Ctrl%20%2B%20C%20on%20Windows%20can,ends%20and%20raises%20an%20exception.
+        sys.exit("\nYou have chosen to exit BookList Generator. "
+                 "GoodBye!")
+    else:
+        print(f"Invalid selection: {choice}, please try again.\n")
+        menu()
+
+    return True
 
 
 def update_student_worksheet(student_data):

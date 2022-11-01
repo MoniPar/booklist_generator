@@ -174,6 +174,9 @@ ___
     ```
     This gets the values of the 'Surname' and 'Name' keys from within the same dictionary and checks them against the user input list(name_data). 
 
+* When project was deployed on [Heroku](https://www.heroku.com), a ModuleNotFoundError was displayed, which pointed to the module named 'rich'.  The 'rich' library was installed using the `pip3 install rich` command in the gitpod terminal and the command `pip3 freeze > requirements.txt` was entered in order to add this module to the requirements file.  After committing, pushing and deploying again, it was noticed that the requirements.txt file was not being updated and I was still getting the error in the Heroku terminal. 
+    - Solution: With the help of tutor support, it was decided to manually add the rich library into the requirement.txt file and after committing, pushing and deploying again, the program started to run smoothly.
+
 
 ##### Remaining Bugs
 
