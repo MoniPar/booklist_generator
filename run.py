@@ -35,7 +35,7 @@ def wait():
     """
     Delays text printing
     """
-    time.sleep(1.25)
+    time.sleep(1.75)
 
 
 def wait_less():
@@ -121,11 +121,13 @@ def validate_name(name_str):
     except TypeError as te:
         con.print(
             f"\nInvalid string: {te}, please try again.\n", style="bold red")
+        wait()
         clear()
         return False
     except ValueError as e:
         con.print(
             f"\nInvalid data: {e}, please try again.\n", style="bold red")
+        wait()
         clear()
         return False
 
@@ -321,6 +323,27 @@ def get_num_of_opt():
     menu()
 
 
+def print_last_entry():
+    """
+    Gets the student's name and optional subjects from the last
+    row of the student worksheet and passes them into the
+    books_total function
+    """
+    student_ws = SHEET.worksheet("student_list").get_all_values()
+    last_value = student_ws[-1]
+    surname = last_value[1]
+    name = last_value[2]
+    option_a = last_value[3]
+    option_b = last_value[4]
+    option_c = last_value[5]
+
+    names = surname + ", " + name
+    subjects = option_a + "," + option_b + "," + option_c
+
+    books_total(subjects, names)
+    menu()
+
+
 def menu():
     """
     Gives the user the option to select other features of the program.
@@ -343,6 +366,8 @@ def menu():
     elif choice == "3":
         clear()
         get_num_of_opt()
+    elif choice == "4":
+        print_last_entry()
     elif choice.capitalize() == "X":
         clear()
         # https://learnpython.com/blog/end-python-script/#:~:text=Ctrl%20%2B%20C%20on%20Windows%20can,ends%20and%20raises%20an%20exception.

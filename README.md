@@ -62,9 +62,7 @@ User Stories - As a user I want to be able to:
 * Have the program run smoothly without crashing.
 * Submit Name and Surname of Students
 * Submit their subject choices.
-* Receive a book list for each student with the total price including discount if applicable.
-* Receive a list of name and quantity of books to order.
-* Retrieve the information at a later date if needed.
+* Receive a book list for each student with the total price.
 
 [Back to Top](#index---table-of-contents)
 ___
@@ -76,7 +74,7 @@ ___
 **Start**
 
 * The user is prompted to enter a student’s name and then surname.  If an incorrect value is entered, an error message is displayed explaining what is wrong with the value entered.  The actions are repeated until the user’s inputs are valid.   
-* A list of subjects is then printed to the terminal and the user is prompted to select the subjects chosen by entering the option numbers. An example of what the input should look like is also displayed for the user.
+* A list of subjects is then printed to the terminal and the user is prompted to select the subjects chosen by entering at least the first three letters of the subjects. An example of what the input should look like is also displayed for the user.
 * When the user inputs valid data, the terminal displays multiple messages providing information on how the data is being processed.  
 
 **Manage Student Worksheet**
@@ -87,11 +85,24 @@ ___
 **Print List of Books and Total Price**
 
 * A message is printed to the terminal notifying the user that the worksheet has updated successfully.
-* The user is then asked if they would like to review the information entered by pressing ‘Y’ or ‘N’.  Input validation
-* If the user answers yes: The list of books and total price are printed to the terminal for the user.  
-* If the user answers no: The user is asked if they want to enter data for another student, get a book order list or exit the program.
+* A list of the compulsory and optional books and the total price are printed to the terminal for the user.  
+
+**Menu Prompt**
+
+The user is then prompted to select an option from a menu.
+* Option 1 
+* Option 2
+* Option 3
+* Option 4
+* Option X
+
 
 ### Future Features
+
+* (Receive a list of name and quantity of books to order.)
+* (Retrieve the information at a later date if needed.)
+
+
 
 [Back to Top](#index---table-of-contents)
 ___
@@ -109,6 +120,7 @@ ___
 * [Google Sheets API](https://developers.google.com/sheets/api) - used to access and update the spreadsheet used in this project with python code.
 * [gspread](https://docs.gspread.org/en/v5.4.0/) - a library of code used to access and update data in the Google Sheet.  Installed by using the command `pip3 install gspread google-auth` into the terminal.
 * [Google Auth](https://google-auth.readthedocs.io/en/master/) – used to set up the authentication needed to access the project from Google Cloud
+* [Textual/Rich]()
 * [Lucidchart Flowcharts](https://www.lucidchart.com/) - used to create the flowcharts outlining the structure and functionality of the project
 * [Git](https://git-scm.com/) - used for version control 
 * [GitHub](https://github.com/) - used as the repository for the project’s code after being pushed from Git.
