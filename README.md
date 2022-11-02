@@ -261,6 +261,7 @@ ___
 * [Python string contains](https://www.digitalocean.com/community/tutorials/python-string-contains) - used in `validate_subjects()`
 * [How to get multiple dictionary values](https://stackoverflow.com/questions/24204087/how-to-get-multiple-dictionary-values) used in `validate_name()`
 * [How to end python script](https://learnpython.com/blog/end-python-script/#:~:text=Ctrl%20%2B%20C%20on%20Windows%20can,ends%20and%20raises%20an%20exception.) used in `menu()`
+* [How to count elements based on key of dictionary](https://stackoverflow.com/questions/41658185/python-list-of-dictionaries-count-elements-based-on-key-of-dictionary) used in `print_num_of_opt()`
 * [The Official Homepage of Python Programming Language](https://www.python.org/)
 * [How to use Python dictionary of dictionaries](https://linuxhint.com/python_dictionary_of_dictionaries/)
 * [Python Programming Language](https://www.geeksforgeeks.org/python-programming-language/?ref=shm)

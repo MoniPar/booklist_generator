@@ -103,9 +103,10 @@ def validate_name(name_str):
         if min(len(x) for x in name_data) <= 2:
             raise ValueError(
                 "Input values must be longer than 2 characters")
-        # if the values have already been written in the worksheet
-        # https://stackoverflow.com/questions/24204087/how-to-get-multiple-dictionary-values
+        # iterates through the dictionaries in the student worksheet list
         for d in student_ws:
+            # if the user values equal the values of the keys specified
+            # https://stackoverflow.com/questions/24204087/how-to-get-multiple-dictionary-values
             if [d.get(k) for k in ['Surname', 'Name']] == name_data:
                 print(f"\nLooks like {name_str} has already been "
                       "entered in the worksheet.")
@@ -137,31 +138,38 @@ def validate_name(name_str):
 def get_subjects():
     """
     Gets student's optional subjects from user.
-    Runs a while loop to collect a valid string of data from the user.
-    The loop repeatedly requests data until it is valid.
-    Concatenates the 3 options into one string and returns the string.
+    Runs 3 while loops to collect valid string of data for each of the
+    three options from the user.
+    The loops repeatedly request data until it is valid.
+    Concatenates the 3 optional subjects into one string and returns the
+    string.
     """
     clear()
     con.print("\nPlease choose 1 subject from each of the "
               "option lists below. You can enter the first "
               "three letters of the subject chosen "
-              "[bright_magenta]Example: 'sci' for 'science' "
-              "[/bright_magenta]\n", style="italic")
+              "[medium_orchid]Example: 'sci' for 'science' "
+              "[/medium_orchid]\n", style="italic")
 
     while True:
         con.print("Option A: [bold]Science[/bold] or [bold]Music[/bold].")
         option_a = input("Enter subject here: \n").title()
+        # calls the validate function with the args for the first option 
         if validate_subjects(option_a, "Science, Music"):
+            # calls and assigns the returns of the helper function
+            option_a = get_full_subject(option_a, "Science, Music")
             break
     while True:
         con.print("\nOption B: [bold]Business[/bold] or [bold]French[/bold].")
         option_b = input("Enter subject here: \n").title()
         if validate_subjects(option_b, "Business, French"):
+            option_b = get_full_subject(option_b, "Business, French")
             break
     while True:
         con.print("\nOption C: [bold]Engineering[/bold] or [bold]Art[/bold].")
         option_c = input("Enter subject here: \n").title()
         if validate_subjects(option_c, "Engineering, Art"):
+            option_c = get_full_subject(option_c, "Engineering, Art")
             break
 
     print(f"\nYou have entered {option_a}, {option_b} "
@@ -175,15 +183,17 @@ def get_subjects():
 
 def validate_subjects(user_value, option_str):
     """
-    Inside the try, checks for user input and raises a ValueError if option
-    string does not contain the user input.
+    Inside the try, checks for user input and raises a ValueError if user input
+    is empty, smaller than 3 characters or is not part of the option string.
     """
     try:
         if not user_value:
             raise ValueError("No string found!")
+        # if the length of the user input is less than 3 characters
         if len(user_value) <= 2:
             raise ValueError(
                 "Input values must be longer than 2 characters")
+        # if the user input is not one or part of the option string
         if user_value not in option_str:
             raise ValueError(f"{user_value} is not an option")
     except ValueError as e:
@@ -192,6 +202,25 @@ def validate_subjects(user_value, option_str):
         wait()
         return False
     return True
+
+
+def get_full_subject(user_value, option_str):
+    """
+    Matches the user value with the first or second string in the option
+    list and returns the full subject name for the options.
+    """
+    # splits the string into a list of strings
+    option_list = option_str.split(", ")
+    # assigns the first string to subject1
+    subject1 = option_list[0]
+    # assigns the second string to subject2
+    subject2 = option_list[1]
+    # if subject1 contains the user value
+    if user_value in subject1:
+        return subject1
+    # if subject2 contains the user value
+    if user_value in subject2:
+        return subject2
 
 
 def add_student_id():
@@ -223,7 +252,8 @@ def books_total(subjects, names):
     """
     Checks if given optional subjects exist in worksheet.
     Prints out the relevant books for both optional and compulsory
-    subjects. Works out the total price for the books.
+    subjects. Adds up the book prices and prints the total cost
+    to the terminal.
     """
     book_ws = SHEET.worksheet("book_list").get_all_records()
     # splits the subject string into a list
@@ -289,11 +319,13 @@ def update_student_worksheet(student_data):
     menu()
 
 
-def get_num_of_student_list():
+def print_num_of_student_list():
     """"
-    Gets the total number of students already added to the worksheet.
+    Gets the total number of students already added to the worksheet
+    and prints it in the terminal.
     """
     student_ws = SHEET.worksheet("student_list").get_all_values()
+    # gets the number of rows in the worksheet excluding the headings.
     student_num = (len(student_ws) - 1)
     print(f"\nThere are currently {student_num} students listed in "
           "the worksheet.\n")
@@ -301,13 +333,16 @@ def get_num_of_student_list():
     menu()
 
 
-def get_num_of_opt():
+def print_num_of_opt():
     """
-    Gets the total number of each optional subject chosen.
+    Gets the total number of each optional subject chosen from the
+    student worksheet and prints them in the terminal.
     """
     print("\nFetching the number of students taking each option...\n")
     sdt_ws = SHEET.worksheet("student_list").get_all_records()
-
+    # counts the total number of times each subject appears in the list
+    # of dictionaries adapted from:
+    # https://stackoverflow.com/questions/41658185/python-list-of-dictionaries-count-elements-based-on-key-of-dictionary
     science = sum(d.get('Option A') in 'Science' for d in sdt_ws)
     music = sum(d.get('Option A') in 'Music' for d in sdt_ws)
     business = sum(d.get('Option B') in 'Business' for d in sdt_ws)
@@ -327,7 +362,7 @@ def print_last_entry():
     """
     Gets the student's name and optional subjects from the last
     row of the student worksheet and passes them into the
-    books_total function
+    books_total function for printing
     """
     student_ws = SHEET.worksheet("student_list").get_all_values()
     last_value = student_ws[-1]
@@ -362,11 +397,12 @@ def menu():
         main()
     elif choice == '2':
         clear()
-        get_num_of_student_list()
+        print_num_of_student_list()
     elif choice == "3":
         clear()
-        get_num_of_opt()
+        print_num_of_opt()
     elif choice == "4":
+        clear()
         print_last_entry()
     elif choice.capitalize() == "X":
         clear()
