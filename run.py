@@ -1,8 +1,13 @@
 import re
 import sys
 import gspread
+import time
 from google.oauth2.service_account import Credentials
 from rich import print
+from rich.console import Console
+from os import system
+# creates a console object
+con = Console()
 
 # Defines the scope
 SCOPE = [
@@ -19,6 +24,34 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("book_list")
 
 
+def clear():
+    """"
+    Clears the user terminal
+    """
+    system('clear')
+
+
+def wait():
+    """
+    Delays text printing
+    """
+    time.sleep(1.25)
+
+
+def wait_less():
+    """"
+    Delays text printing 
+    """
+    time.sleep(.75)
+
+
+def wait_more():
+    """
+    Delays text printing more
+    """
+    time.sleep(2.5)
+
+
 def get_student_name():
     """
     Gets student's first and last name from the user.
@@ -26,16 +59,17 @@ def get_student_name():
     The loop repeatedly requests data, until it is valid.
     """
     while True:
-        print("\nWhen entering the student's full name, please start "
-              "with the surname separated by a comma (,) from the name. "
-              "Example: Picard, Jean-Luc\n")
-
+        con.print("\nWhen entering the student's full name, please start "
+                  "with the surname separated by a comma (,) from the name. "
+                  "[bright_magenta]Example: Picard, "
+                  "Jean-Luc[/bright_magenta]\n", style="italic")
         name_str = input("Enter Student's Full Name: \n").title()
-        print("\nValidating your input...")
+        con.print("\n[light_green]Validating your input...[/light_green]")
 
         if validate_name(name_str):
             print(f"\nThank you! You are compiling a booklist for {name_str}")
             break
+    wait()
     return name_str
 
 
@@ -73,9 +107,6 @@ def validate_name(name_str):
         # https://stackoverflow.com/questions/24204087/how-to-get-multiple-dictionary-values
         for d in student_ws:
             if [d.get(k) for k in ['Surname', 'Name']] == name_data:
-                # print(d['Surname'], d['Name'])
-                # raise ValueError(f"{name_str} has already been entered")
-                # duplicate_name(name_str)
                 print(f"\nLooks like {name_str} has already been "
                       "entered in the worksheet.")
                 choice = input("\nWould you like to create a booklist "
@@ -88,10 +119,14 @@ def validate_name(name_str):
                     raise TypeError("Only Y or N is accepted. You have "
                                     f"entered '{choice}'")
     except TypeError as te:
-        print(f"\nInvalid string: {te}, please try again.\n")
+        con.print(
+            f"\nInvalid string: {te}, please try again.\n", style="bold red")
+        clear()
         return False
     except ValueError as e:
-        print(f"\nInvalid data: {e}, please try again.\n")
+        con.print(
+            f"\nInvalid data: {e}, please try again.\n", style="bold red")
+        clear()
         return False
 
     return True
@@ -104,31 +139,33 @@ def get_subjects():
     The loop repeatedly requests data until it is valid.
     Concatenates the 3 options into one string and returns the string.
     """
-
-    print("\nPlease choose 1 subject from each of the "
-          "option lists below. You can enter the first "
-          "three letters of the subject chosen "
-          "e.g. 'sci' for 'science'\n")
+    clear()
+    con.print("\nPlease choose 1 subject from each of the "
+              "option lists below. You can enter the first "
+              "three letters of the subject chosen "
+              "[bright_magenta]Example: 'sci' for 'science' "
+              "[/bright_magenta]\n", style="italic")
 
     while True:
-        print("Option A: Science or Music.")
+        con.print("Option A: [bold]Science[/bold] or [bold]Music[/bold].")
         option_a = input("Enter subject here: \n").title()
         if validate_subjects(option_a, "Science, Music"):
             break
     while True:
-        print("\nOption B: Business or French.")
+        con.print("\nOption B: [bold]Business[/bold] or [bold]French[/bold].")
         option_b = input("Enter subject here: \n").title()
         if validate_subjects(option_b, "Business, French"):
             break
     while True:
-        print("\nOption C: Engineering or Art.")
+        con.print("\nOption C: [bold]Engineering[/bold] or [bold]Art[/bold].")
         option_c = input("Enter subject here: \n").title()
         if validate_subjects(option_c, "Engineering, Art"):
             break
 
     print(f"\nYou have entered {option_a}, {option_b} "
           f"and {option_c}.\n")
-
+    wait()
+    clear()
     subjects_str = option_a + "," + option_b + "," + option_c
 
     return subjects_str
@@ -148,9 +185,10 @@ def validate_subjects(user_value, option_str):
         if user_value not in option_str:
             raise ValueError(f"{user_value} is not an option")
     except ValueError as e:
-        print(f"Invalid data: {e}. Please try again.\n")
+        con.print(
+            f"Invalid data: {e}. Please try again.\n", style="bold red")
+        wait()
         return False
-
     return True
 
 
@@ -179,7 +217,7 @@ def create_list(entry, names, subjects, totals):
     return student_data
 
 
-def books_total(subjects):
+def books_total(subjects, names):
     """
     Checks if given optional subjects exist in worksheet.
     Prints out the relevant books for both optional and compulsory
@@ -199,10 +237,14 @@ def books_total(subjects):
             comp_count += 1
             # if count is equal to 1 prints "Retrieving..." statement
             if comp_count == 1:
-                print("Retrieving Compulsory Subjects BookList...\n")
-            # prints each dict's Subject's, Book's, Price's value
-            print(f"{d['Subject']}: {d['Book']}, "
-                  f"€{d['Price']}")
+                print("Retrieving Compulsory Subjects BookList for "
+                      f"{names}\n")
+                wait_less()
+            # prints the values for compulsary subject, book and price
+            con.print(f"[bright_cyan]{d['Subject']}:[/bright_cyan] "
+                      f"[italic]{d['Book']}[/italic], "
+                      f"[green]€{d['Price']}[/green]")
+            wait_less()
             # adds the values of Price
             totalcost += d['Price']
         else:
@@ -212,54 +254,36 @@ def books_total(subjects):
                 if value in d['Subject']:
                     opt_count += 1
                     if opt_count == 1:
-                        print("\nRetrieving Optional Subjects BookList...\n")
-                    print(f"{d['Subject']}: {d['Book']}, "
-                          f"€{d['Price']}")
+                        print("\nRetrieving Optional Subjects BookList for "
+                              f"for {names}\n")
+                        wait_less()
+                    con.print(f"[bright_cyan]{d['Subject']}:[/bright_cyan] "
+                              f"[italic]{d['Book']}[/italic], "
+                              f"[green]€{d['Price']}[/green]")
+                    wait_less()
                     totalcost += d['Price']
     # formats totalcost to 2 decimal places
     # adapted from https://pythonguides.com/python-print-2-decimal-places/
     format_totalcost = "{:.2f}".format(totalcost)
-    print("\nCalculating Total Cost of BookList...\n")
-    print(f"Total Cost of BookList: €{format_totalcost}\n")
-
+    con.print("\n[light_green]Calculating Total Cost of BookList..."
+              "[/light_green]\n")
+    wait_less()
+    con.print(f"Total Cost of BookList: "
+              f"[green]€{format_totalcost}[/green]\n")
+    wait_less()
     return format_totalcost
-
-
-def menu():
-    """
-    Gives the user the option to select other features of the program.
-    """
-    print("What would you like to do next?\n")
-    choice = input(" Add another student entry: 1\n "
-                   "Get the number of students in the worksheet: 2\n "
-                   "Get the number of options chosen: 3\n"
-                   " Exit program: X\n").strip()
-
-    if choice == '1':
-        main()
-    elif choice == '2':
-        get_num_of_student_list()
-    elif choice == "3":
-        get_num_of_opt()
-    elif choice.capitalize() == "X":
-        # https://learnpython.com/blog/end-python-script/#:~:text=Ctrl%20%2B%20C%20on%20Windows%20can,ends%20and%20raises%20an%20exception.
-        sys.exit("\nYou have chosen to exit BookList Generator. "
-                 "GoodBye!")
-    else:
-        print(f"Invalid selection: {choice}, please try again.\n")
-        menu()
-
-    return True
 
 
 def update_student_worksheet(student_data):
     """
     Updates student worksheet, adds new row with the list data provided.
     """
-    print("Updating student worksheet...\n")
+    con.print("[light_green]Updating student worksheet...[/light_green]\n")
+    wait()
     student_ws = SHEET.worksheet("student_list")
     student_ws.append_row(student_data)
     print("Student worksheet updated successfully.\n")
+    wait()
     menu()
 
 
@@ -271,6 +295,7 @@ def get_num_of_student_list():
     student_num = (len(student_ws) - 1)
     print(f"\nThere are currently {student_num} students listed in "
           "the worksheet.\n")
+    wait()
     menu()
 
 
@@ -288,24 +313,64 @@ def get_num_of_opt():
     engineering = sum(d.get('Option C') in 'Engineering' for d in sdt_ws)
     art = sum(d.get('Option C') in 'Art' for d in sdt_ws)
     print(f"Science: {science}, Music: {music}")
+    wait_less()
     print(f"Business: {business}, French: {french}")
+    wait_less()
     print(f"Engineering: {engineering}, Art: {art}\n")
+    wait_more()
     menu()
+
+
+def menu():
+    """
+    Gives the user the option to select other features of the program.
+    """
+    print("-------------------------------")
+    print("What would you like to do next?")
+    print("-------------------------------")
+    choice = input(" Add another student entry: 1\n "
+                   "Get the number of students in the worksheet: 2\n "
+                   "Get the number of options chosen: 3\n"
+                   " Show me the last booklist again: 4\n"
+                   " Exit program: X\n").strip()
+
+    if choice == '1':
+        clear()
+        main()
+    elif choice == '2':
+        clear()
+        get_num_of_student_list()
+    elif choice == "3":
+        clear()
+        get_num_of_opt()
+    elif choice.capitalize() == "X":
+        clear()
+        # https://learnpython.com/blog/end-python-script/#:~:text=Ctrl%20%2B%20C%20on%20Windows%20can,ends%20and%20raises%20an%20exception.
+        sys.exit("\nYou have chosen to exit BookList Generator. "
+                 "GoodBye!")
+    else:
+        print(f"Invalid selection: {choice}, please try again.\n")
+        wait()
+        clear()
+        menu()
+
+    return True
 
 
 def main():
     """
     Runs all program functions
     """
+    wait()
     names = get_student_name()
     subjects = get_subjects()
-    totals = books_total(subjects)
+    totals = books_total(subjects, names)
     entry = add_student_id()
     student_data = create_list(entry, names, subjects, totals)
     update_student_worksheet(student_data)
 
 
-print("Welcome to [bold yellow]BookList Generator![/bold yellow]\n")
+print("[bold yellow]Welcome to BookList Generator![/bold yellow]\n")
 print("In order to run this program efficiently, "
       "please enter the correct information when "
       "prompted and press the 'Enter' key.\n")
