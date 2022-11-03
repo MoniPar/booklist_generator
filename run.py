@@ -59,9 +59,9 @@ def get_student_name():
     The loop repeatedly requests data, until it is valid.
     """
     while True:
-        con.print("\nWhen entering the student's full name, please start "
-                  "with the surname separated by a comma (,) from the name. "
-                  "[yellow3]Example: Picard, "
+        con.print(" \nWhen entering the student's full name, please start "
+                  "with\n the surname separated by a comma(,) from the name.\n"
+                  "             [yellow3]Example: Picard, "
                   "Jean-Luc[/yellow3]\n", style="italic")
         name_str = input("Enter Student's Full Name: \n").title()
         con.print("\n[light_green]Validating your input...[/light_green]")
@@ -146,14 +146,14 @@ def get_subjects():
     string.
     """
     clear()
-    con.print("\nPlease choose 1 subject from each of the "
-              "option lists below. You can enter the first "
-              "three letters of the subject chosen "
-              "[yellow2]Example: 'sci' for 'science' "
+    con.print(" \nPlease choose 1 subject from each of the "
+              " option lists below.\n You can enter the first "
+              " three letters of the subject chosen\n "
+              "             [yellow2]Example: 'sci' for 'science' "
               "[yellow2]\n", style="italic")
 
     while True:
-        con.print("Option A: [cyan1]Science[/cyan1] or [cyan1]Music[/cyan1].")
+        con.print(" Option A: [cyan1]Science[/cyan1] or [cyan1]Music[/cyan1].")
         option_a = input("Enter subject here: \n").title()
         # calls the validate function with the args for the first option 
         if validate_subjects(option_a, "Science, Music"):
@@ -161,14 +161,14 @@ def get_subjects():
             option_a = get_full_subject(option_a, "Science, Music")
             break
     while True:
-        con.print("\nOption B: [cyan1]Business[/cyan1] or "
+        con.print(" \nOption B: [cyan1]Business[/cyan1] or "
                   "[cyan1]French[/cyan1].")
         option_b = input("Enter subject here: \n").title()
         if validate_subjects(option_b, "Business, French"):
             option_b = get_full_subject(option_b, "Business, French")
             break
     while True:
-        con.print("\nOption C: [cyan1]Engineering[/cyan1] or "
+        con.print(" \nOption C: [cyan1]Engineering[/cyan1] or "
                   "[cyan1]Art[/cyan1].")
         option_c = input("Enter subject here: \n").title()
         if validate_subjects(option_c, "Engineering, Art"):
@@ -276,7 +276,7 @@ def books_total(subjects, names):
                           f"[cyan1]{names}[/cyan1]\n")
                 wait_less()
             # prints the values for compulsary subject, book and price
-            con.print(f"[yellow1]{d['Subject']}:[/yellow1] "
+            con.print(f"    [yellow1]{d['Subject']}:[/yellow1] "
                       f"[italic]{d['Book']}[/italic], "
                       f"[green]€{d['Price']}[/green]")
             wait_less()
@@ -292,7 +292,7 @@ def books_total(subjects, names):
                         print("\nRetrieving Optional Subjects BookList for "
                               f"for [cyan1]{names}[/cyan1]\n")
                         wait_less()
-                    con.print(f"[yellow1]{d['Subject']}:[/yellow1] "
+                    con.print(f"    [yellow1]{d['Subject']}:[/yellow1] "
                               f"[italic]{d['Book']}[/italic], "
                               f"[green]€{d['Price']}[/green]")
                     wait_less()
@@ -303,7 +303,7 @@ def books_total(subjects, names):
     con.print("\n[light_green]Calculating Total Cost of BookList..."
               "[/light_green]\n")
     wait_less()
-    con.print(f"Total Cost of BookList: "
+    con.print(f"    Total Cost of BookList: "
               f"[green]€{format_totalcost}[/green]\n")
     wait_less()
     return format_totalcost
@@ -313,7 +313,7 @@ def update_student_worksheet(student_data):
     """
     Updates student worksheet, adds new row with the list data provided.
     """
-    con.print("[light_green]Updating student worksheet...[/light_green]\n")
+    con.print("Updating student worksheet...\n", style="light_green")
     wait()
     student_ws = SHEET.worksheet("student_list")
     student_ws.append_row(student_data)
@@ -330,7 +330,7 @@ def print_num_of_student_list():
     student_ws = SHEET.worksheet("student_list").get_all_values()
     # gets the number of rows in the worksheet excluding the headings.
     student_num = (len(student_ws) - 1)
-    print(f"\nThere are currently {student_num} students listed in "
+    print(f"    \nThere are currently {student_num} students listed in "
           "the worksheet.\n")
     wait()
     menu()
@@ -341,7 +341,8 @@ def print_num_of_opt():
     Gets the total number of each optional subject chosen from the
     student worksheet and prints them in the terminal.
     """
-    print("\nFetching the number of students taking each option...\n")
+    con.print("\nFetching the number of students taking each option...\n", 
+              style="light_green")
     sdt_ws = SHEET.worksheet("student_list").get_all_records()
     # counts the total number of times each subject appears in the list
     # of dictionaries adapted from:
@@ -352,11 +353,11 @@ def print_num_of_opt():
     french = sum(d.get('Option B') in 'French' for d in sdt_ws)
     engineering = sum(d.get('Option C') in 'Engineering' for d in sdt_ws)
     art = sum(d.get('Option C') in 'Art' for d in sdt_ws)
-    print(f"Science: {science}, Music: {music}")
+    print(f"    Science: {science}, Music: {music}")
     wait_less()
-    print(f"Business: {business}, French: {french}")
+    print(f"    Business: {business}, French: {french}")
     wait_less()
-    print(f"Engineering: {engineering}, Art: {art}\n")
+    print(f"    Engineering: {engineering}, Art: {art}\n")
     wait()
     menu()
 
@@ -410,8 +411,8 @@ def menu():
     elif choice.capitalize() == "X":
         clear()
         # https://learnpython.com/blog/end-python-script/#:~:text=Ctrl%20%2B%20C%20on%20Windows%20can,ends%20and%20raises%20an%20exception.
-        sys.exit("\nYou have chosen to exit BookList Generator. "
-                 "GoodBye!")
+        sys.exit("\nYou have chosen to exit BookList Generator.\n "
+                 "          Thank You and GoodBye!")
     else:
         con.print(f"Invalid selection: {choice}, please try again.\n", 
                   style="bold bright_red")
