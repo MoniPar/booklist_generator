@@ -1,6 +1,6 @@
 # BOOKLIST GENERATOR
 
-Booklist Generator is a command line based Python programme which handles data automation and runs on Heroku. 
+Booklist Generator is a command line based Python program which handles data automation and runs on Heroku. 
 
 It provides the user value in accessing the list of books and total cost for the specific subjects each student is using in their first year in a post-primary school.  
 
@@ -40,14 +40,40 @@ The user is asked to input data about each student and the subjects of their cho
 
 ### Structure of the program
 
-* When the program starts the user is asked to input the name and surname of the student.
-* The program checks if an input has been submitted.
-* The program checks if the input is a string consisting of letters, not smaller than 2 characters and not longer than 25 characters including white space and special characters like (') apostrophy, (-) hyphen and (.) period.
-* The program checks if the same input has already been submitted.
-* The program then gives optional subjects for the user to choose from.
-* Errors are displayed if the user submits invalid input.
+* When the program starts the user is prompted to input the surname and name of the student.
+* The program validates the input by checking:
+    
+    - if an input has been submitted,
+    - if the input contains two values (surname, name),
+    - if each of the two values is 3 or more characters long,
+    - if each value consists of letters including; 
+        - white space (e.g. Anne Marie) and 
+        - special characters like apostrophy (e.g. O'Conor), 
+        - hyphen (e.g. Jean-Luc) and
+        - period (e.g. King Jr.) 
+* If these requirements are not met, an error message is displayed showing where
+the error is and the prompt is repeated again.
+* The program also checks if the same surname and name has already been saved in the student worksheet. It then prompts the user to decide if they want to input another student by the same name or move on.
+    - NB: If the user submits an invalid input here, an error messag is diplayed and notified that they have to enter the surname and name again.  If they input the same name again they can then choose if they want to keep it or not.
+* The program then gives optional subjects for the user to choose from. They are given the option to type in only the first 3 or more letters of the subject name.
+* The program validates each of the inputs by checking:
+    - if an input has been submitted,
+    - if the input is longer than 2 letters,
+    - if the input is one of the options listed.
+* Errors are displayed if the user submits invalid input and each prompt is repeated again until all inputs are valid. 
 * Once this process is completed, the program adds the submitted information to the spreadsheet and calculates the total price of the books. 
-* The data is printed in the terminal and saved in the spreadsheet for record keeping. 
+* The data is printed in the terminal.  The student's surname, name, optional subjects chosen and the total price are saved to the student worksheet for record keeping.
+* The user is then presented with a menu of options to select. If an invalid selection is made, an error message appears and the menu is presented again.
+    - Option 1: Add another student entry.
+        - This feature provides the user with a quick way to insert another student entry without having to run the program from the start. Once it is selected, it runs through the same structure as mentioned above. 
+    - Option 2: Get the number of students in the worksheet.
+        - This feature counts the current number of students entered in the worksheet and prints out the number in the terminal.
+    - Option 3: Get the number of options chosen.
+        - This feature counts how many times each subject has been entered in the current list and prints out the number for each subject in the terminal.
+    - Option 4: Show me the last booklist again.
+        - This feature prints out the list of subjects, books and prices + the total cost of the last entry in the worksheet.
+    - Option 5: Exit program.
+        - The user can choose to exit the program by entering 'X'.
 
 [Back to Top](#index---table-of-contents)
 ___
@@ -58,11 +84,13 @@ User Stories - As a user I want to be able to:
 
 * Easily navigate the program without having to read the documentation supporting it.
 * See clearly labelled inputs with examples of the text I should be submitting.
-* See helpful suggestions when there is an error.
+* See helpful suggestions when an invalid input has been submitted.
 * Have the program run smoothly without crashing.
-* Submit Name and Surname of Students
+* Submit Name and Surname of Students.
 * Submit their subject choices.
 * Receive a book list for each student with the total price.
+* Check how many students have already been submitted.
+* Check the total number of optional subjects chosen.
 
 [Back to Top](#index---table-of-contents)
 ___

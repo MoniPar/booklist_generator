@@ -33,23 +33,23 @@ def clear():
 
 def wait():
     """
-    Delays text printing
+    Delays text printing by 1750ms
     """
     time.sleep(1.75)
 
 
 def wait_less():
     """"
-    Delays text printing 
+    Delays text printing by 750ms
     """
     time.sleep(.75)
 
 
 def wait_more():
     """
-    Delays text printing more
+    Delays text printing by 3500ms
     """
-    time.sleep(2.5)
+    time.sleep(3.5)
 
 
 def get_student_name():
@@ -118,12 +118,11 @@ def validate_name(name_str):
                 elif choice.capitalize() == 'N':
                     return False
                 else:
-                    raise TypeError("Only Y or N is accepted. You have "
-                                    f"entered '{choice}'")
+                    raise TypeError("Only 'Y' or 'N' are accepted ")
     except TypeError as te:
-        con.print(f"\nInvalid string: {te}, "
-                  "please try again.\n", style="bold bright_red")
-        wait()
+        con.print(f"\nInvalid string: {te}, please enter the surname "
+                  "and name again.\n", style="bold bright_red")
+        wait_more()
         clear()
         return False
     except ValueError as e:
@@ -195,13 +194,14 @@ def validate_subjects(user_value, option_str):
         # if the length of the user input is less than 3 characters
         if len(user_value) <= 2:
             raise ValueError(
-                "Input values must be longer than 2 characters")
+                "Input values must be longer than 2 letters")
         # if the user input is not one or part of the option string
         if user_value not in option_str:
             raise ValueError(f"{user_value} is not an option")
     except ValueError as e:
         con.print(
-            f"Invalid data: {e}. Please try again.\n", style="bold bright_red")
+            f"Invalid data: {e}. Please type in one of the "
+            "options listed.\n", style="bold bright_red")
         wait()
         return False
     return True
@@ -314,7 +314,7 @@ def update_student_worksheet(student_data):
     Updates student worksheet, adds new row with the list data provided.
     """
     con.print("Updating student worksheet...\n", style="light_green")
-    wait()
+    wait_less()
     student_ws = SHEET.worksheet("student_list")
     student_ws.append_row(student_data)
     print("Student worksheet updated successfully.\n")
@@ -362,7 +362,7 @@ def print_num_of_opt():
     menu()
 
 
-def print_last_entry():
+def get_last_entry():
     """
     Gets the student's name and optional subjects from the last
     row of the student worksheet and passes them into the
@@ -383,40 +383,66 @@ def print_last_entry():
     menu()
 
 
+def print_sdt_list():
+    """
+    Prints out the student worksheet in an easy to read format.
+    """
+    sdt_ws = SHEET.worksheet("student_list").get_all_records()
+    for d in sdt_ws:
+        con.print(f"{d['ID']}: [tan]{d['Surname']} {d['Name']}[/] - " 
+                  f"{d['Option A']}, {d['Option B']}, {d['Option C']}"
+                  f" - [sea_green2]{d['Total Cost']}[/]\n")
+        wait_less() 
+    menu()
+
+
 def menu():
     """
-    Gives the user the option to select other features of the program.
+    Gives the user the option to select other features of the program. 
+    Prints error message if the user input is not one of the option numbers
+    or letter X. 
     """
     print("-------------------------------")
     print("What would you like to do next?")
     print("-------------------------------")
     choice = input(" Add another student entry: 1\n "
-                   "Get the number of students in the worksheet: 2\n "
-                   "Get the number of options chosen: 3\n"
-                   " Show me the last booklist again: 4\n"
+                   "Get no. of students in worksheet: 2\n "
+                   "Get no. of options chosen: 3\n"
+                   " Print last booklist again: 4\n"
+                   " Print student worksheet: 5\n"
                    " Exit program: X\n").strip()
 
     if choice == '1':
+        # goes back to first function in main()
         clear()
         main()
     elif choice == '2':
+        # goes to function to print no. of entries in worksheet
         clear()
         print_num_of_student_list()
     elif choice == "3":
+        # goes to function to print the no. of each optional subject chosen
         clear()
         print_num_of_opt()
     elif choice == "4":
+        # goes to helper function to get last entry and prints out booklist 
+        # through the books_total function
         clear()
-        print_last_entry()
+        get_last_entry()
+    elif choice == "5":
+        # goes to function to print out student worksheet
+        clear()
+        print_sdt_list()
     elif choice.capitalize() == "X":
         clear()
         # https://learnpython.com/blog/end-python-script/#:~:text=Ctrl%20%2B%20C%20on%20Windows%20can,ends%20and%20raises%20an%20exception.
         sys.exit("\nYou have chosen to exit BookList Generator.\n "
                  "          Thank You and GoodBye!")
     else:
-        con.print(f"Invalid selection: {choice}, please try again.\n", 
-                  style="bold bright_red")
-        wait()
+        con.print(f"Invalid selection: {choice} \nPlease choose "
+                  "a number from the options above or 'X' " 
+                  "to exit.\n", style="bold bright_red")
+        wait_more()
         clear()
         menu()
 
@@ -436,10 +462,11 @@ def main():
     update_student_worksheet(student_data)
 
 
+print("---------------------------------------------------------\n")
 print("             [bold yellow]Welcome to BookList Generator! "
       "[/bold yellow]\n")
 print(" In order to run this program efficiently, please enter\n "
       " the correct information when prompted and press the\n "
       "                 'Enter' key.\n")
-print("----------------------------------------------------------\n")
+print("---------------------------------------------------------\n")
 main()
