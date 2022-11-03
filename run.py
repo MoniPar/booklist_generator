@@ -61,13 +61,14 @@ def get_student_name():
     while True:
         con.print("\nWhen entering the student's full name, please start "
                   "with the surname separated by a comma (,) from the name. "
-                  "[bright_magenta]Example: Picard, "
-                  "Jean-Luc[/bright_magenta]\n", style="italic")
+                  "[yellow3]Example: Picard, "
+                  "Jean-Luc[/yellow3]\n", style="italic")
         name_str = input("Enter Student's Full Name: \n").title()
         con.print("\n[light_green]Validating your input...[/light_green]")
 
         if validate_name(name_str):
-            print(f"\nThank you! You are compiling a booklist for {name_str}")
+            print(f"\nThank you! You are compiling a booklist for "
+                  f"[cyan1]{name_str}[/cyan1]")
             break
     wait()
     return name_str
@@ -120,14 +121,14 @@ def validate_name(name_str):
                     raise TypeError("Only Y or N is accepted. You have "
                                     f"entered '{choice}'")
     except TypeError as te:
-        con.print(
-            f"\nInvalid string: {te}, please try again.\n", style="bold red")
+        con.print(f"\nInvalid string: {te}, "
+                  "please try again.\n", style="bold bright_red")
         wait()
         clear()
         return False
     except ValueError as e:
-        con.print(
-            f"\nInvalid data: {e}, please try again.\n", style="bold red")
+        con.print(f"\nInvalid data: {e}, "
+                  "please try again.\n", style="bold bright_red")
         wait()
         clear()
         return False
@@ -148,11 +149,11 @@ def get_subjects():
     con.print("\nPlease choose 1 subject from each of the "
               "option lists below. You can enter the first "
               "three letters of the subject chosen "
-              "[medium_orchid]Example: 'sci' for 'science' "
-              "[/medium_orchid]\n", style="italic")
+              "[yellow2]Example: 'sci' for 'science' "
+              "[yellow2]\n", style="italic")
 
     while True:
-        con.print("Option A: [bold]Science[/bold] or [bold]Music[/bold].")
+        con.print("Option A: [cyan1]Science[/cyan1] or [cyan1]Music[/cyan1].")
         option_a = input("Enter subject here: \n").title()
         # calls the validate function with the args for the first option 
         if validate_subjects(option_a, "Science, Music"):
@@ -160,20 +161,22 @@ def get_subjects():
             option_a = get_full_subject(option_a, "Science, Music")
             break
     while True:
-        con.print("\nOption B: [bold]Business[/bold] or [bold]French[/bold].")
+        con.print("\nOption B: [cyan1]Business[/cyan1] or "
+                  "[cyan1]French[/cyan1].")
         option_b = input("Enter subject here: \n").title()
         if validate_subjects(option_b, "Business, French"):
             option_b = get_full_subject(option_b, "Business, French")
             break
     while True:
-        con.print("\nOption C: [bold]Engineering[/bold] or [bold]Art[/bold].")
+        con.print("\nOption C: [cyan1]Engineering[/cyan1] or "
+                  "[cyan1]Art[/cyan1].")
         option_c = input("Enter subject here: \n").title()
         if validate_subjects(option_c, "Engineering, Art"):
             option_c = get_full_subject(option_c, "Engineering, Art")
             break
 
-    print(f"\nYou have entered {option_a}, {option_b} "
-          f"and {option_c}.\n")
+    con.print(f"\nYou have entered [cyan1]{option_a}, {option_b}[/cyan1] "
+              f"and [cyan1]{option_c}[/cyan1].\n")
     wait()
     clear()
     subjects_str = option_a + "," + option_b + "," + option_c
@@ -198,7 +201,7 @@ def validate_subjects(user_value, option_str):
             raise ValueError(f"{user_value} is not an option")
     except ValueError as e:
         con.print(
-            f"Invalid data: {e}. Please try again.\n", style="bold red")
+            f"Invalid data: {e}. Please try again.\n", style="bold bright_red")
         wait()
         return False
     return True
@@ -269,11 +272,11 @@ def books_total(subjects, names):
             comp_count += 1
             # if count is equal to 1 prints "Retrieving..." statement
             if comp_count == 1:
-                print("Retrieving Compulsory Subjects BookList for "
-                      f"{names}\n")
+                con.print("Retrieving Compulsory Subjects BookList for "
+                      f"[cyan1]{names}[/cyan1]\n")
                 wait_less()
             # prints the values for compulsary subject, book and price
-            con.print(f"[bright_cyan]{d['Subject']}:[/bright_cyan] "
+            con.print(f"[yellow1]{d['Subject']}:[/yellow1] "
                       f"[italic]{d['Book']}[/italic], "
                       f"[green]€{d['Price']}[/green]")
             wait_less()
@@ -287,9 +290,9 @@ def books_total(subjects, names):
                     opt_count += 1
                     if opt_count == 1:
                         print("\nRetrieving Optional Subjects BookList for "
-                              f"for {names}\n")
+                              f"for [cyan1]{names}[/cyan1]\n")
                         wait_less()
-                    con.print(f"[bright_cyan]{d['Subject']}:[/bright_cyan] "
+                    con.print(f"[yellow1]{d['Subject']}:[/yellow1] "
                               f"[italic]{d['Book']}[/italic], "
                               f"[green]€{d['Price']}[/green]")
                     wait_less()
@@ -354,7 +357,7 @@ def print_num_of_opt():
     print(f"Business: {business}, French: {french}")
     wait_less()
     print(f"Engineering: {engineering}, Art: {art}\n")
-    wait_more()
+    wait()
     menu()
 
 
@@ -410,7 +413,8 @@ def menu():
         sys.exit("\nYou have chosen to exit BookList Generator. "
                  "GoodBye!")
     else:
-        print(f"Invalid selection: {choice}, please try again.\n")
+        con.print(f"Invalid selection: {choice}, please try again.\n", 
+                  style="red3")
         wait()
         clear()
         menu()
