@@ -273,7 +273,7 @@ def books_total(subjects, names):
             # if count is equal to 1 prints "Retrieving..." statement
             if comp_count == 1:
                 con.print("Retrieving Compulsory Subjects BookList for "
-                      f"[cyan1]{names}[/cyan1]\n")
+                          f"[cyan1]{names}[/cyan1]\n")
                 wait_less()
             # prints the values for compulsary subject, book and price
             con.print(f"[yellow1]{d['Subject']}:[/yellow1] "
@@ -414,7 +414,7 @@ def menu():
                  "GoodBye!")
     else:
         con.print(f"Invalid selection: {choice}, please try again.\n", 
-                  style="red3")
+                  style="bold bright_red")
         wait()
         clear()
         menu()
@@ -435,8 +435,9 @@ def main():
     update_student_worksheet(student_data)
 
 
-print("[bold yellow]Welcome to BookList Generator![/bold yellow]\n")
-print("In order to run this program efficiently, "
-      "please enter the correct information when "
-      "prompted and press the 'Enter' key.\n")
+print("             [bold yellow]Welcome to BookList Generator! "
+      "[/bold yellow]\n")
+print(" In order to run this program efficiently, please enter\n "
+      " the correct information when prompted and press the\n "
+      "                 'Enter' key.\n")
 main()
