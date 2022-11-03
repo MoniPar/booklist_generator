@@ -59,9 +59,9 @@ def get_student_name():
     The loop repeatedly requests data, until it is valid.
     """
     while True:
-        con.print(" \nWhen entering the student's full name, please start "
+        con.print(" When entering the student's full name, please start "
                   "with\n the surname separated by a comma(,) from the name.\n"
-                  "             [yellow3]Example: Picard, "
+                  " [yellow3]Example: Picard, "
                   "Jean-Luc[/yellow3]\n", style="italic")
         name_str = input("Enter Student's Full Name: \n").title()
         con.print("\n[light_green]Validating your input...[/light_green]")
@@ -146,10 +146,10 @@ def get_subjects():
     string.
     """
     clear()
-    con.print(" \nPlease choose 1 subject from each of the "
-              " option lists below.\n You can enter the first "
-              " three letters of the subject chosen\n "
-              "             [yellow2]Example: 'sci' for 'science' "
+    con.print("\n Please choose 1 subject from each of the "
+              "option lists below.\n You can enter the first "
+              "three letters of the subject chosen\n "
+              "[yellow2]Example: 'sci' for 'science' "
               "[yellow2]\n", style="italic")
 
     while True:
@@ -441,4 +441,5 @@ print("             [bold yellow]Welcome to BookList Generator! "
 print(" In order to run this program efficiently, please enter\n "
       " the correct information when prompted and press the\n "
       "                 'Enter' key.\n")
+print("----------------------------------------------------------\n")
 main()
