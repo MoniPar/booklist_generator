@@ -128,7 +128,7 @@ def validate_name(name_str):
     except ValueError as e:
         con.print(f"\nInvalid data: {e}, "
                   "please try again.\n", style="bold bright_red")
-        wait()
+        wait_more()
         clear()
         return False
 
@@ -319,6 +319,7 @@ def update_student_worksheet(student_data):
     student_ws.append_row(student_data)
     print("Student worksheet updated successfully.\n")
     wait()
+    clear()
     menu()
 
 

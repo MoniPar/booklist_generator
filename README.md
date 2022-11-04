@@ -6,8 +6,10 @@ It provides the user value in accessing the list of books and total cost for the
 
 The goal of this project is to save the post holder time by automating a repetitive task and help reduce errors in calculations for book orders.  
 
-[Here is the live version of the project.](link)
-![Am I responsive image](url)
+![Am I responsive image](assets/images/terminal_start_50.png)
+
+
+[Link to the live terminal](https://booklist-generator.herokuapp.com/)
 
 ## Index - Table of Contents
 * [Overview](#overview)
@@ -40,40 +42,61 @@ The user is asked to input data about each student and the subjects of their cho
 
 ### Structure of the program
 
+Please refer to this [flowchart](assets/images/flowchart_booklist.png) for a visual representation of the following.
+
 * When the program starts the user is prompted to input the surname and name of the student.
-* The program validates the input by checking:
-    
-    - if an input has been submitted,
-    - if the input contains two values (surname, name),
-    - if each of the two values is 3 or more characters long,
-    - if each value consists of letters including; 
-        - white space (e.g. Anne Marie) and 
-        - special characters like apostrophy (e.g. O'Conor), 
-        - hyphen (e.g. Jean-Luc) and
-        - period (e.g. King Jr.) 
-* If these requirements are not met, an error message is displayed showing where
-the error is and the prompt is repeated again.
+* <details>
+    <summary> The program validates the input by checking...</summary>
+
+        - if an input has been submitted,
+        - if the input contains two values (surname, name),
+        - if each of the two values is 3 or more characters long,
+        - if each value consists of letters including: 
+            - white space (e.g. Anne Marie) and 
+            - special characters like apostrophy (e.g. O'Conor), 
+            - hyphen (e.g. Jean-Luc) and
+            - period (e.g. King Jr.).
+</details>  
+  
+* If these requirements are not met, an error message is displayed showing what the error is and the prompt is repeated again.
 * The program also checks if the same surname and name has already been saved in the student worksheet. It then prompts the user to decide if they want to input another student by the same name or move on.
-    - NB: If the user submits an invalid input here, an error messag is diplayed and notified that they have to enter the surname and name again.  If they input the same name again they can then choose if they want to keep it or not.
+    - NB: If the user submits an invalid input here, an error message is diplayed and  to enter the surname and name again.  If they input the same name again they can then choose if they want to keep it or not.
+    
 * The program then gives optional subjects for the user to choose from. They are given the option to type in only the first 3 or more letters of the subject name.
-* The program validates each of the inputs by checking:
+
+* <details>
+    <summary>The program validates each of the inputs by checking...</summary>
+
     - if an input has been submitted,
     - if the input is longer than 2 letters,
     - if the input is one of the options listed.
+</details>
+
 * Errors are displayed if the user submits invalid input and each prompt is repeated again until all inputs are valid. 
 * Once this process is completed, the program adds the submitted information to the spreadsheet and calculates the total price of the books. 
 * The data is printed in the terminal.  The student's surname, name, optional subjects chosen and the total price are saved to the student worksheet for record keeping.
-* The user is then presented with a menu of options to select. If an invalid selection is made, an error message appears and the menu is presented again.
-    - Option 1: Add another student entry.
-        - This feature provides the user with a quick way to insert another student entry without having to run the program from the start. Once it is selected, it runs through the same structure as mentioned above. 
-    - Option 2: Get the number of students in the worksheet.
-        - This feature counts the current number of students entered in the worksheet and prints out the number in the terminal.
-    - Option 3: Get the number of options chosen.
-        - This feature counts how many times each subject has been entered in the current list and prints out the number for each subject in the terminal.
-    - Option 4: Show me the last booklist again.
-        - This feature prints out the list of subjects, books and prices + the total cost of the last entry in the worksheet.
-    - Option 5: Exit program.
-        - The user can choose to exit the program by entering 'X'.
+* <details>
+    <summary>The user is then presented with a menu of options to choose from. If an invalid selection is made, an error message appears and the menu is presented again.</summary>
+    
+    - **Option 1: Add another student entry**
+        
+        This feature provides the user with a quick way to insert another student entry without having to run the program from the start. Once it is selected, it runs through the same structure as mentioned above. 
+    - **Option 2: Get the number of students in the worksheet**
+        
+        This feature counts the current number of students entered in the worksheet and prints out the number in the terminal.
+    - **Option 3: Get the number of options chosen**
+        
+        This feature counts how many times each subject has been entered in the current list and prints out the number for each subject in the terminal.
+    - **Option 4: Show me the last booklist again**
+        
+        This feature prints out to the terminal, the list of subjects, books and prices + the total cost of the last student entry in the worksheet.
+    - **Option 5: Print student worksheet**
+        
+        This feature prints out to the terminal, the student names, options and total cost of books for each student saved in the worksheet.
+    - **Option X: Exit program**
+
+        The user can choose to gracefully exit the program by entering 'X'.
+</details>
 
 [Back to Top](#index---table-of-contents)
 ___
@@ -91,6 +114,7 @@ User Stories - As a user I want to be able to:
 * Receive a book list for each student with the total price.
 * Check how many students have already been submitted.
 * Check the total number of optional subjects chosen.
+* See the list of students already entered in the worksheet.
 
 [Back to Top](#index---table-of-contents)
 ___
@@ -101,36 +125,72 @@ ___
 
 **Start**
 
-* The user is prompted to enter a student’s name and then surname.  If an incorrect value is entered, an error message is displayed explaining what is wrong with the value entered.  The actions are repeated until the user’s inputs are valid.   
-* A list of subjects is then printed to the terminal and the user is prompted to select the subjects chosen by entering at least the first three letters of the subjects. An example of what the input should look like is also displayed for the user.
-* When the user inputs valid data, the terminal displays multiple messages providing information on how the data is being processed.  
+* The user is prompted to enter a student’s surname and name. A message is printed on the terminal explaining how this information needs to be entered.  An example is displayed in a different colour for emphasis.  
+
+![Start and Name Prompt]()
+
+* If an incorrect value is entered, an error message is displayed in red, explaining what is wrong with the value entered.  These actions are repeated until the user’s inputs are valid.
+
+![Error Messages]()
+
+* The terminal is cleared and the subjects prompt is printed to the terminal. The user is asked to select the subjects chosen by entering at least the first three letters of the subjects. This provides a shortcut for the user. An example of what the input should look like is also displayed in a different colour.
+
+![Subjects Prompt]()
+
+* When the user inputs valid data, the terminal displays multiple messages providing information on how the data is being processed.   
 
 **Manage Student Worksheet**
 
 * The program parses the information given by the user into a correct format for the worksheet.
-* It pairs the subject choices with the books needed, calculates the books total price for the student and updates the Student Worksheet accordingly.  
+* It pairs the subject choices from the user input, with the books and prices in the book list worksheet. It then calculates the books total price for the student and updates the Student Worksheet accordingly.
+
+![Book Worksheet]()
+![Student Worksheet]()
 
 **Print List of Books and Total Price**
 
+* A list of the compulsory and optional books and the total price are printed to the terminal for the user.
+
+![Printed BookList]()
+
 * A message is printed to the terminal notifying the user that the worksheet has updated successfully.
-* A list of the compulsory and optional books and the total price are printed to the terminal for the user.  
 
 **Menu Prompt**
 
-The user is then prompted to select an option from a menu.
-* Option 1 
-* Option 2
-* Option 3
-* Option 4
-* Option X
+The user is then prompted to select an option from a menu. This provides some extra features for the user to access data from the worksheet. The data has been formatted in order to be easier to read by the user. 
+
+![Menu Prompt]()
+
+* Option 1 - brings the user back to the start of the program to enter a new student entry without having to quit the program and start again.
+
+![Option 1 - result]()
+
+* Option 2 - provides a quick way for the user to check how many students have already been entered in the worksheet.
+
+![Option 2 - result]()
+
+* Option 3 - provides the user with a quick and efficient way to check the totals for each optional subject.
+
+![Option 3 - result]()
+
+* Option 4 - prints the latest entry's name and booklist including prices and total cost. At this point the terminal doesn't refresh automatically to give plenty of time for the user to take note of the books and prices.
+
+![Option 4 - result]()
+
+* Option 5 - prints the student worksheet with all the students' names, choices and total cost of books. This is helpful for the user to check which students have already been entered and what their choices are.
+
+![Option 5 - result]()
+
+* Option X - gives the user the choice of quitting the program smoothly.
+
+![Option X - result]()
 
 
 ### Future Features
 
-* (Receive a list of name and quantity of books to order.)
-* (Retrieve the information at a later date if needed.)
-
-
+* Add the functionality to create another worksheet with the total number of books to order for the year.
+* Add formats for books required by each student. Example, e-books, braille, large print.
+* Add a delete feature in order for the user to be able to delete student entries from the student worksheet by their ID or index.
 
 [Back to Top](#index---table-of-contents)
 ___
@@ -149,6 +209,9 @@ ___
 * [gspread](https://docs.gspread.org/en/v5.4.0/) - a library of code used to access and update data in the Google Sheet.  Installed by using the command `pip3 install gspread google-auth` into the terminal.
 * [Google Auth](https://google-auth.readthedocs.io/en/master/) – used to set up the authentication needed to access the project from Google Cloud
 * [Textual/Rich]()
+* [Os System]()
+* [re]()
+* [sys]()
 * [Lucidchart Flowcharts](https://www.lucidchart.com/) - used to create the flowcharts outlining the structure and functionality of the project
 * [Git](https://git-scm.com/) - used for version control 
 * [GitHub](https://github.com/) - used as the repository for the project’s code after being pushed from Git.
