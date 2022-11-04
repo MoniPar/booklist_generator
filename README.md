@@ -4,7 +4,7 @@ Booklist Generator is a command line based Python program which handles data aut
 
 It provides the user value in accessing the list of books and total cost for the specific subjects each student is using in their first year in a post-primary school.  
 
-The goal of this project is to save the post holder time by automating a repetitive task and help reduce errors in calculations for book orders.  
+The goal of this project is to save the post-holder time, by automating a repetitive task, and help reduce errors in calculations for book orders.  
 
 ![Am I responsive image](assets/images/terminal_start_50.png)
 
@@ -35,31 +35,32 @@ ___
 
 ## Overview
 
-The python program interacts with a Google Sheet which holds the list of subjects offered to first year students and the relative books needed for each subject as well as their prices.  
+The python program interacts with a Google Sheet which holds the list of subjects offered to first year students and the relative books needed for each subject, as well as their prices.  
 
-The user is asked to input data about each student and the subjects of their choice.  The programme matches the subjects with the required books and calculates the total cost for each student’s book list.  The information is printed to the terminal and stored in another worksheet for record keeping. 
+The user is asked to input data about each student and their subjects of choice.  The program matches the subjects with the required books and calculates the total cost for each student’s book list.  The information is printed to the terminal and stored in another worksheet for record keeping. 
 
 ### Structure of the program
 
 Please refer to this [flowchart](assets/images/flowchart_booklist.png) for a visual representation of the following.
 
-* When the program starts the user is prompted to input the surname and name of the student.
-* <details>
-    <summary> The program validates the input by checking...</summary>
+* When the program starts, the user is prompted to input the surname and name of the student.
+* The program validates the input by checking...
+    <details>
+    <summary>Click the arrow to open dropdown.</summary>
 
-        - if an input has been submitted,
-        - if the input contains two values (surname, name),
-        - if each of the two values is more than 3 and less than 15 charaters long, 
-        - if each value consists of letters including: 
-            - white space (e.g. Anne Marie) and 
-            - special characters like apostrophy (e.g. O'Conor), 
-            - hyphen (e.g. Jean-Luc) and
-            - period (e.g. King Jr.).
+    - if an input has been submitted,
+    - if the input contains two values (surname, name),
+    - if each of the two values is more than 3 and less than 15 charaters long, 
+    - if each value consists of letters including: 
+        - white space (e.g. Anne Marie) and 
+        - special characters like apostrophy (e.g. O'Conor), 
+        - hyphen (e.g. Jean-Luc) and
+        - period (e.g. King Jr.).
 </details>  
   
 * If these requirements are not met, an error message is displayed showing what the error is and the prompt is repeated again.
 * The program also checks if the same surname and name has already been saved in the student worksheet. It then prompts the user to decide if they want to input another student by the same name or move on.
-    - NB: If the user submits an invalid input here, an error message is diplayed and  to enter the surname and name again.  If they input the same name again they can then choose if they want to keep it or not.
+    - NB: If the user submits an invalid input here, an error message is diplayed and asks the user to enter a surname and name again.  If they input the same name again they can then choose if they want to keep it or not.
     
 * The program then gives optional subjects for the user to choose from. They are given the option to type in only the first 3 or more letters of the subject name.
 
@@ -79,26 +80,32 @@ Please refer to this [flowchart](assets/images/flowchart_booklist.png) for a vis
     
     - **Option 1: Add another student entry**
         
-        This feature provides the user with a quick way to insert another student entry without having to run the program from the start. Once it is selected, it runs through the same structure as mentioned above. 
+        This feature provides the user with a quick way to insert another student entry without having to run the program from the start. Once it is selected, it runs through the same structure described above.
+
     - **Option 2: Get the number of students in the worksheet**
         
         This feature counts the current number of students entered in the worksheet and prints out the number in the terminal.
+
     - **Option 3: Get the number of options chosen**
         
         This feature counts how many times each subject has been entered in the current list and prints out the number for each subject in the terminal.
+
     - **Option 4: Show me the last booklist again**
         
         This feature prints out to the terminal, the list of subjects, books and prices + the total cost of the last student entry in the worksheet.
+
     - **Option 5: Print student worksheet**
         
         This feature prints out to the terminal, the student names, options and total cost of books for each student saved in the worksheet.
+
     - **Option X: Exit program**
 
         The user can choose to gracefully exit the program by entering 'X'.
+
 </details>
 
 [Back to Top](#index---table-of-contents)
-___
+_____
 
 ## User Experience (UX)
 
@@ -108,7 +115,7 @@ User Stories - As a user I want to be able to:
 * See clearly labelled inputs with examples of the text I should be submitting.
 * See helpful suggestions when an invalid input has been submitted.
 * Have the program run smoothly without crashing.
-* Submit Name and Surname of Students.
+* Submit Name and Surname of students.
 * Submit their subject choices.
 * Receive a book list for each student with the total price.
 * Check how many students have already been submitted.
@@ -154,7 +161,7 @@ ___
 
 </details>
 
-* If the name already exists in the worksheet the user is notified and asked if they want to input another student with the same name.  If they input `y` the same name is entered in the worksheet and the program continues.  If they input `n`, the surname and name prompt is repeated. If the input enters anything but `Y` or `n`, an error is displayed, the name is not added to the worksheet and the surname and name prompt is repeated.
+* If the name already exists in the worksheet, the user is notified and asked if they want to input another student with the same name.  If they input `y`, the same name is entered in the worksheet and the program continues.  If they input `n`, the surname and name prompt is repeated. If the input enters anything but `Y` or `n`, an error is displayed, the name is not added to the worksheet and the surname and name prompt is repeated.
 
         Name already entered
 ![Name already exists message](assets/images/name_duplicate.png)
@@ -170,7 +177,7 @@ ___
 ![Subjects Prompt](assets/images/subject_prompt.png)
 
 * <details>
-    <summary>Error messages are displayed in red, if the user inputs invalid data and the prompts are repeated until all inputs are valid.</summary> 
+    <summary>Error messages are displayed in red if the user inputs invalid data and the prompts are repeated until all inputs are valid.</summary> 
 
         No Input
     ![No Subject Input](assets/images/subject_nostring.png)
@@ -190,7 +197,7 @@ ___
 
 * The program parses the information given by the user into a correct format for the worksheet.
 
-* It pairs the subject choices from the user input, with the books and prices in the book list worksheet. It then calculates the books total price for the student and updates the Student Worksheet accordingly.
+* It pairs the subject choices from the user input with the books and prices in the book list worksheet. It then calculates the books' total price for the student and updates the Student Worksheet accordingly.
 
         Book List Worksheet
 ![Book Worksheet](assets/images/ws_booklist.png)
@@ -200,7 +207,7 @@ ___
 
 **Print List of Books and Total Price**
 
-* The terminal is cleared and a message is displayed explaining how the data is being processed   
+* The terminal is cleared and a message is displayed explaining how the data is being processed.   
 
 * A list of the compulsory and optional books and the total price are printed to the terminal for the user.
 
@@ -246,6 +253,7 @@ The user is then prompted to select an option from a menu. This provides some ex
 
 ### Future Features
 
+* Add a feature to get the list for a specific student by their name or worksheet ID number.
 * Add a delete feature in order for the user to be able to delete student entries from the student worksheet by their ID or index.
 * Add the functionality to create another worksheet with the total number of books to order for the year.
 * Add formats for books required by each student. Example, e-books, braille, large print.
@@ -267,10 +275,12 @@ ___
 * [Google Sheets API](https://developers.google.com/sheets/api) - used to access and update the spreadsheet used in this project with python code.
 * [gspread](https://docs.gspread.org/en/v5.4.0/) - a library of code used to access and update data in the Google Sheet.  Installed by using the command `pip3 install gspread google-auth` into the terminal.
 * [Google Auth](https://google-auth.readthedocs.io/en/master/) – used to set up the authentication needed to access the project from Google Cloud
-* [Textual/Rich]()
-* [Os System]()
-* [re]()
-* [sys]()
+* [Rich Print](https://rich.readthedocs.io/en/stable/introduction.html#quick-start) - a module from the Rich library used as a drop-in replacement to do some basic syntax highlighting.
+* [Rich Console](https://rich.readthedocs.io/en/stable/console.html) - a class from the Rich library used to apply style to some print statements
+* [Time](https://realpython.com/python-sleep/) - the time module's function sleep used to suspend execution of calls and prints for a few seconds 
+* [OS](https://docs.python.org/3/library/os.html?highlight=system#os.system) - system method in the OS module was used to clear the terminal 
+* [Regular Expression (re)](https://docs.python.org/3/library/re.html) - a module used to validate names and surnames
+* [sys](https://docs.python.org/3/library/sys.html) - this module was used with the exit method to exit the program
 * [Lucidchart Flowcharts](https://www.lucidchart.com/) - used to create the flowcharts outlining the structure and functionality of the project
 * [Git](https://git-scm.com/) - used for version control 
 * [GitHub](https://github.com/) - used as the repository for the project’s code after being pushed from Git.
@@ -304,8 +314,8 @@ Some warnings remain.
 ![Problems screenshot](assets/images/pep8validator.png)
 
 
-Testing was done at continuous stages throughout the progress of this project.
-The following list the bugs encountered during each stage of the process.
+Testing was done continually as the project progressed.
+The following dropdown sections list the bugs encountered during each stage of the process.
 ________
 
 ### Development Testing
@@ -353,7 +363,7 @@ ________
         if (d.['Surname'] and d.['Name']) in name_data:
             raise ValueError()
     ```
-    This was able to raise the error when both surname and name were already in the worksheet.  E.g. King, Stephen, when King, Stephen was already in the worksheet. No error was raised when King, Stefan was entered. However, it raised the error when it matched a name in the worksheet even though the surname was different. E.g. King, James, when the names King, Stephen and Herbert, James were in the worksheet. 
+    This was able to raise the error when both surname and name were already in the worksheet.  E.g. King, Stephen, when King, Stephen was already in the worksheet. No error was raised when King, Stefan was entered. However, it raised the error when it matched a name in the worksheet, even though the surname was different. E.g. King, James, when the names King, Stephen and Herbert, James were the only names in the worksheet. 
     - Solution: The aforementioned testing showed that the above code wasn't matching against the values within the same dictionary. Eventually, I came across this a solution on [Stackoverflow](https://stackoverflow.com/questions/24204087/how-to-get-multiple-dictionary-values), which was adapted for the name validation function.
     ```
     for d in student_list:
@@ -378,8 +388,9 @@ The `get_books` function had a while loop with the third and second if statement
 
 * Through manual testing it was discovered that the method `.__contains__` to check if the required value contained the user input, wasn't working as expected. 
     - Expectation: If the required value is "Science, Music" and the user input is anything but "science" or "music", then the input doesn't pass validation and is asked to enter the choices again.   
-However if the user only entered the first two or three letters of the subject chosen, e.g. "sci" or "musi", no error was being raised and these strings were being added into the worksheet.  From the user's perspective this was a good thing (as they didn't need to write the whole word everytime). However, because of this, the `get_num_of_opt()` was not working as expected.
+However, if the user only entered the first two or three letters of the subject chosen, e.g. "sci" or "musi", no error was being raised and these strings were being added into the worksheet.  From the user's perspective this was a good thing (as they didn't need to write the whole word everytime). However, because of this, the `get_num_of_opt()` was not working as expected.
     - Solution: It was decided to change the `get_num_of_opt()` to count "sci" or "scien" as "science" in order to keep this function working as it should.  Another `try` statement was added to the `validate_subjects()` to raise an error if user input was smaller than 3 letters.  The method `.__contains__` was changed into Python’s membership operator `in` as this is the recommended way to confirm the existence of a substring in a string in Python. [Real Python](https://realpython.com/python-string-contains-substring/)
+    Furthermore, a helper function was added to match the user input to the subject name and only add the full subject name to the worksheet.
 
 </details>
 
@@ -388,15 +399,17 @@ However if the user only entered the first two or three letters of the subject c
 Due to time contstraints the following bugs haven't been solved but are documented here for future reference/fix.
 
 * Duplicate Name Prompt Invalid Input Error
+
 This bug occurs when the user enters an invalid input when prompted with the following: 
 
 ![Duplicate Name Prompt](assets/images/name_duplicate.png)
 
-Expectation: This bug doesn't break the program. However the user expects to have the prompt displayed again, instead they are brought back to the 'Enter Surname and Name' prompt.
+Expectation: This bug doesn't break the program. However, the user expects to have the prompt displayed again. Instead they are brought back to the 'Enter Surname and Name' prompt.
 
 Temporary Solution: A quick solution to aid the user process this was put in place by printing an error message encouraging the user to enter the surname and name again. They can then put in the same name and go through the process by entering a valid input.
 
-* Unprompted User Input 
+* Unprompted User Input
+
 The user might hit keys on their keyboard while the program is running.  The entries show up in the terminal and although they don't break the program, they could give the user an invalid input. This could cause an issue with inserting the wrong surname in the ' Surname and Name prompt', as the accidental keys are taken as part of the user's input for Surname.  By the time the user realises this, it would be too late.  The only way to avoid the wrong surname being added to the worksheet is to press the red 'Run Program' button at the top of the terminal before completing the 'Optional Subjects prompt'. 
 
 Future Fix: The easiest fix to this is to add the 'Delete Student Entry' functionality to the program.  This way the user can go back and remove the wrong entries from the worksheet. Other possible fixes for this include [Temporarily Disabling User Keyboard](https://stackoverflow.com/questions/29289945/how-to-temporarily-disable-keyboard-input-using-python) which is not a recommended one or to [Hide User Input](https://stackoverflow.com/questions/70604155/hide-non-standard-python-user-input) and then clear it before the prompts for user input. 
@@ -414,8 +427,8 @@ ___
 * Select a new project.  Give it a unique name and select it to get to the project's dashboard.
 * To setup Google Drive credentials: 
     - click on the hamburger menu and select 'APIs and Services' --> 'Library'
-    - search for 'Google Drive API', 
-    - select and click on 'enable' to get to the 'API and Services Overview' page.
+    - search for 'Google Drive API' 
+    - select and click on 'enable' to get to the 'API and Services Overview' page
     - navigate to the 'Create Credentials' button near the top
     - in the 'Credential Type' dropdown menu select 'Google Drive API'
     - in the 'What data will you be accessing' area, select the 'Application Data' radio button
@@ -425,7 +438,7 @@ ___
     - click 'Done' on step 3
     - on the next page, click on the service account name to go to the configuration page for the new service account
     - click on the KEYS tab --> Add Key --> Create New Key
-    - select the JSON radio button and click 'Create'.  The JSON file with the new API creds will download to your pc.
+    - select the JSON radio button and click 'Create'.  The JSON file with the new API creds will download to your pc
     - go back to the library and search for 'Google sheets'
     - select the Google Sheet API and click 'enable' 
 * To add the credentials file to the work environment, simply locate it on your pc and drag and drop it into the workspace.
@@ -497,6 +510,7 @@ Steps to view and edit the code without affecting the original repository
 
 <details>
 <summary>Creating a local clone</summary>
+
 * Go to the GitHub repository. Link can be found [here](link)
 * Click on Code to the right of the screen, click on HTTPs and copy the link.
 * Open Git Bash and change the current working directory to the location where you want the cloned directory.

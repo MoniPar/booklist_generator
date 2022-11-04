@@ -1,11 +1,14 @@
-import re
-import sys
-import time
-from os import system
-import gspread
+"""
+Imported libraries and modules for program support
+"""
+import re  # used in name validation
+import sys   # used to provide a smooth exit from the program
+import time  # used to add pauses when printing to the terminal
+from os import system  # used to clear the terminal
+import gspread  # used to interact with google sheets
 from google.oauth2.service_account import Credentials
-from rich import print
-from rich.console import Console
+from rich import print  # used to add some styling to python print
+from rich.console import Console  # used to add more styling for improved UX
 
 # creates a console object
 con = Console()
