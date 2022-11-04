@@ -1,11 +1,12 @@
 import re
 import sys
-import gspread
 import time
+from os import system
+import gspread
 from google.oauth2.service_account import Credentials
 from rich import print
 from rich.console import Console
-from os import system
+
 # creates a console object
 con = Console()
 
@@ -60,7 +61,7 @@ def get_student_name():
     The loop repeatedly requests data, until it is valid.
     """
     while True:
-        con.print(" When entering the student's full name, please start "
+        con.print("\n When entering the student's full name, please start "
                   "with\n the surname separated by a comma(,) from the name.\n"
                   " [yellow3]Example: Picard, "
                   "Jean-Luc[/yellow3]\n", style="italic")
@@ -183,7 +184,7 @@ def get_subjects():
 
     con.print(f"\nYou have entered [cyan1]{option_a}, {option_b}[/cyan1] "
               f"and [cyan1]{option_c}[/cyan1].\n")
-    wait()
+    wait_more()
     clear()
     subjects_str = option_a + "," + option_b + "," + option_c
 
@@ -314,7 +315,7 @@ def books_total(subjects, names):
     wait_less()
     con.print(f"    Total Cost of BookList: "
               f"[green]€{format_totalcost}[/green]\n")
-    wait_less()
+    wait_more()
     return format_totalcost
 
 
@@ -342,7 +343,7 @@ def print_num_of_student_list():
     student_num = (len(student_ws) - 1)
     con.print("\n Retrieving the current number of students in the "
               "worksheet...", style="light_green")
-    print(f"    \nThere are currently {student_num} students listed in "
+    print(f"\n  There are currently {student_num} students listed in "
           "the worksheet.\n")
     wait()
     menu()
@@ -410,6 +411,7 @@ def print_sdt_list():
                   f"{d['Option A']}, {d['Option B']}, {d['Option C']}"
                   f" - [sea_green2]{d['Total Cost']}[/]\n")
         wait_less()
+    wait_more()
     menu()
 
 

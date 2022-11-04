@@ -13,19 +13,18 @@ The goal of this project is to save the post holder time by automating a repetit
 
 ## Index - Table of Contents
 * [Overview](#overview)
+    * [Program Structure](#structure-of-the-program)
 * [User Experience (UX)](#user-experience-ux)
 * [Features](#features)
     * [Existing Features](#existing-features)
     * [Future Features](#future-features)
 * [Technologies Used](#technologies-used)
 * [Testing](#testing)
-    * [Manual Testing](#manual-testing)
-    * [Bugs](#bugs)
-        * [Solved Bugs](#solved-bugs)
-        * [Remaining Bugs](#remaining-bugs)
     * [Validator Testing](#validator-testing)
-        * [Solved](#solved)
-        * [Remaining](#remaining)
+    * [Development Testing & Bugs](#development-testing)        
+    * [Manual Testing & Bugs](#manual-testing) 
+    * [Known Bugs](#known-bugs)
+* [Setting up and Connecting to APIs](#setting-up-and-connecting-to-apis) 
 * [Deployment](#deployment)
 * [Credits](#credits)
 * [Acknowledgements](#acknowledgments)
@@ -251,6 +250,7 @@ The user is then prompted to select an option from a menu. This provides some ex
 * Add the functionality to create another worksheet with the total number of books to order for the year.
 * Add formats for books required by each student. Example, e-books, braille, large print.
 
+
 [Back to Top](#index---table-of-contents)
 ___
 
@@ -282,10 +282,36 @@ ___
 
 ## Testing
 
+### Validator Testing
+
+The Python validator [PEP8](pep8online.com) was down while working on this project.  As a workaround, a PEP8 validator needed to be added directly to the [Gitpod](https://www.gitpod.io/) Workspace.
+<details>
+    <summary>Steps to add PEP8 validator to the Gitpod workspace as laid out by Kevin Loughrey on the CI slack channel #announcements</summary>
+
+    1. Run the command `pip3 install.pycodestyle`.
+    2. In the workspace, press ctrl+shift+p (or cmd+shift+p on mac).
+    3. Type the word `linter` into the search bar that appears, and click on `Python: Select Linter` from the filtered results.
+    4. Select `pycodestyle` from the list.
+    5. PEP8 errors will now be underlined in red, as well as being listed in the 'PROBLEMS' tab beside the terminal.
+
+</details>
+
+**PEP8 Testing Result**
+
+All errors were dealt with.
+Some warnings remain.
+
+![Problems screenshot](assets/images/pep8validator.png)
+
+
+Testing was done at continuous stages throughout the progress of this project.
+The following list the bugs encountered during each stage of the process.
+________
+
 ### Development Testing
 
-#### Bugs
-##### Solved Bugs
+<details> 
+    <summary>Bugs encountered during Development Testing</summary>
 
 * While validating user input values, `len(name_data)` returns 1 when there has been no input entered.  
     - Expectation: Since no input has been entered, `len(name_data)` should return 0.
@@ -320,9 +346,6 @@ ___
             print(f"d['Subject']...")
     ```
 
-* When project was deployed on [Heroku](https://www.heroku.com), a ModuleNotFoundError was displayed, which pointed to the module named 'rich'.  The 'rich' library was installed using the `pip3 install rich` command in the gitpod terminal and the command `pip3 freeze > requirements.txt` was entered in order to add this module to the requirements file.  After committing, pushing and deploying again, it was noticed that the requirements.txt file was not being updated and I was still getting the error in the Heroku terminal. 
-    - Solution: With the help of tutor support, it was decided to manually add the rich library into the requirement.txt file and after committing, pushing and deploying again, the program started to run smoothly.
-
 * Checking if name input has already been entered in the worksheet.
     - Expectation: The following code (in the validate_name function) was expected to check if the values in 'Surname' and 'Name' matched those given by the user in `name_data`.  
     ```
@@ -339,9 +362,15 @@ ___
     ```
     This gets the values of the 'Surname' and 'Name' keys from within the same dictionary and checks them against the user input list(name_data). 
 
-##### Remaining Bugs
+</details>
 
 ### Manual Testing
+
+<details>
+    <summary>Bugs encountered after Deployment</summary>
+
+* When project was deployed on [Heroku](https://www.heroku.com), a ModuleNotFoundError was displayed, which pointed to the module named 'rich'.  The 'rich' library was installed using the `pip3 install rich` command in the gitpod terminal and the command `pip3 freeze > requirements.txt` was entered in order to add this module to the requirements file.  After committing, pushing and deploying again, it was noticed that the requirements.txt file was not being updated and I was still getting the error in the Heroku terminal. 
+    - Solution: With the help of tutor support, it was decided to manually add the rich library into the requirement.txt file and after committing, pushing and deploying again, the program started to run smoothly.
 
 * When inserting option subjects, an invalid input on the second or third option was asking the user to redo the first option again.  User feedback showed strongly that this was an annoyance and needed to be improved. 
 The `get_books` function had a while loop with the third and second if statements nested in the first.  This is why it continuously repeated the first and second even though the invalid input occurred in the third.
@@ -352,11 +381,81 @@ The `get_books` function had a while loop with the third and second if statement
 However if the user only entered the first two or three letters of the subject chosen, e.g. "sci" or "musi", no error was being raised and these strings were being added into the worksheet.  From the user's perspective this was a good thing (as they didn't need to write the whole word everytime). However, because of this, the `get_num_of_opt()` was not working as expected.
     - Solution: It was decided to change the `get_num_of_opt()` to count "sci" or "scien" as "science" in order to keep this function working as it should.  Another `try` statement was added to the `validate_subjects()` to raise an error if user input was smaller than 3 letters.  The method `.__contains__` was changed into Python’s membership operator `in` as this is the recommended way to confirm the existence of a substring in a string in Python. [Real Python](https://realpython.com/python-string-contains-substring/)
 
+</details>
+
+### Known Bugs
+
+Due to time contstraints the following bugs haven't been solved but are documented here for future reference/fix.
+
+* Duplicate Name Prompt Invalid Input Error
+This bug occurs when the user enters an invalid input when prompted with the following: 
+
+![Duplicate Name Prompt](assets/images/name_duplicate.png)
+
+Expectation: This bug doesn't break the program. However the user expects to have the prompt displayed again, instead they are brought back to the 'Enter Surname and Name' prompt.
+
+Temporary Solution: A quick solution to aid the user process this was put in place by printing an error message encouraging the user to enter the surname and name again. They can then put in the same name and go through the process by entering a valid input.
+
+* Unprompted User Input 
+The user might hit keys on their keyboard while the program is running.  The entries show up in the terminal and although they don't break the program, they could give the user an invalid input. This could cause an issue with inserting the wrong surname in the ' Surname and Name prompt', as the accidental keys are taken as part of the user's input for Surname.  By the time the user realises this, it would be too late.  The only way to avoid the wrong surname being added to the worksheet is to press the red 'Run Program' button at the top of the terminal before completing the 'Optional Subjects prompt'. 
+
+Future Fix: The easiest fix to this is to add the 'Delete Student Entry' functionality to the program.  This way the user can go back and remove the wrong entries from the worksheet. Other possible fixes for this include [Temporarily Disabling User Keyboard](https://stackoverflow.com/questions/29289945/how-to-temporarily-disable-keyboard-input-using-python) which is not a recommended one or to [Hide User Input](https://stackoverflow.com/questions/70604155/hide-non-standard-python-user-input) and then clear it before the prompts for user input. 
 
 
-### Validator Testing
-#### Solved
-#### Remaining
+[Back to Top](#index---table-of-contents)
+___
+
+## Setting up and Connecting to APIs
+
+<details>
+<summary>Setting up APIs using the Google Cloud Platform</summary>
+
+* Get access to [Google Cloud Platform](https://console.cloud.google.com/getting-started?pli=1)
+* Select a new project.  Give it a unique name and select it to get to the project's dashboard.
+* To setup Google Drive credentials: 
+    - click on the hamburger menu and select 'APIs and Services' --> 'Library'
+    - search for 'Google Drive API', 
+    - select and click on 'enable' to get to the 'API and Services Overview' page.
+    - navigate to the 'Create Credentials' button near the top
+    - in the 'Credential Type' dropdown menu select 'Google Drive API'
+    - in the 'What data will you be accessing' area, select the 'Application Data' radio button
+    - in the 'Are you planning to use this API with Compute Engine...', select 'No, I'm not using them' and click 'Next'
+    - enter a value in the first text box of 'Create Service account' page and click 'Create and Continue'
+    - select 'Basic Editor' in 'Select a Role' dropdown and click ' Continue'
+    - click 'Done' on step 3
+    - on the next page, click on the service account name to go to the configuration page for the new service account
+    - click on the KEYS tab --> Add Key --> Create New Key
+    - select the JSON radio button and click 'Create'.  The JSON file with the new API creds will download to your pc.
+    - go back to the library and search for 'Google sheets'
+    - select the Google Sheet API and click 'enable' 
+* To add the credentials file to the work environment, simply locate it on your pc and drag and drop it into the workspace.
+* Rename it to creds.json and open it. Copy the email address from the 'client_email', go back to the spreadsheet, click the share button and paste client email in. Select 'Editor', untick 'Notify People' and click 'Share'.
+* Check that creds.json is listed in your gitignore file and save.  Before doing a commit, do a git status to check that creds.json is not listed as a file to be committed.
+
+</details>
+
+<details>
+<summary>Connecting to the API with Python</summary>
+
+* In order to use Google Sheets API, two additional dependencies need to be installed into the project.
+* To install google-auth type in `pip3 install gspread google-auth` in the terminal.  Import them into the python file using `import gspread` and `from google.oauth2service_account import Credentials` and type in the following:
+```
+SCOPE = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive.file",
+    "https://www.googleapis.com/auth/drive"
+    ]
+```
+* Add the CREDS, SCOPED_CREDS and GSRPREAD_CLIENT variables and access the google worksheet
+```
+CREDS = Credentials.from_service_account_file("creds.json")
+SCOPED_CREDS = CREDS.with_scopes(SCOPE)
+GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
+
+SHEET = GSPREAD_CLIENT.open("book_list")
+```
+
+</details>
 
 [Back to Top](#index---table-of-contents)
 ___
@@ -365,9 +464,10 @@ ___
 
 ### Deployment on Heroku  
 
-The following are the steps taken to deploy:
+<details>
+<summary>The steps taken to deploy the project to Heroku</summary>
 
-* To include the details on the project dependencies, the requirements.txt file is updated by entering this command in the terminal: `pip3 freeze ? requirements.txt`
+* To include the details on the project dependencies, the requirements.txt file is updated by entering this command in the terminal: `pip3 freeze > requirements.txt`
 * Commit resulting changes to requirements.txt and push to GitHub.
 * Login or create a new account on Heroku.
 * Click on the Create New App button on the dashboard.  If you are a new user, the Create New App button will appear further down the screen.
@@ -381,24 +481,30 @@ The following are the steps taken to deploy:
 * Scroll down to the Automatic Deploys section and click Enable Automatic Deploys or choose to Manually Deploy by clicking on Deploy Branch. 
 * Once the program runs, the message “The app was successfully deployed” will appear, click View.  The application can also be run from the Application Configuration page by clicking on the Open App button.
 
-[Click here for the live link of the project](link)
+</details>
 
-### Forking the GitHub repository
+[Click here for the live link of the project](https://booklist-generator.herokuapp.com/)
 
-To view and edit the code without affecting the original repository:
+<details>
+<summary>Forking the GitHub repository</summary>
 
-* Locate the GitHub repository.  Link can be found [here](link)
+Steps to view and edit the code without affecting the original repository
+* Locate the GitHub repository.  Link can be found [here](https://github.com/MoniPar/booklist_generator)
 * Click on Fork, in the top right-hand corner.
 * This will take you to your own repository to a fork with the same name as the original branch.
 
-### Creating a local clone
+</details>
 
+<details>
+<summary>Creating a local clone</summary>
 * Go to the GitHub repository. Link can be found [here](link)
 * Click on Code to the right of the screen, click on HTTPs and copy the link.
 * Open Git Bash and change the current working directory to the location where you want the cloned directory.
 * Type `git clone`, paste the URL you copied earlier, and press Enter to create your local clone.
 
 More information on Creating and Managing repositories can be found [here](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) 
+
+</details>
 
 [Back to Top](#index---table-of-contents)
 
@@ -423,6 +529,7 @@ ___
 * [Regex101](https://regex101.com/r/fZ93Oy/1)
 * [Finding the length of items in a tuple](https://stackoverflow.com/questions/33884253/finding-the-length-of-items-in-a-tuple-python)
 * [A Complete Guide to User Input in Python](https://towardsdatascience.com/a-complete-guide-to-user-input-in-python-727561fc16e1)
+* [Rich's Documentation](https://rich.readthedocs.io/en/stable/index.html)
 
 [Back to Top](#index---table-of-contents)
 
@@ -432,38 +539,9 @@ ___
 
 
 
+![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+
+
 [Back to Top](#index---table-of-contents)
 
 ___
-
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
-
-Welcome Monique Parnis,
-
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **August 17, 2021**
-
-## Reminders
-
-* Your code must be placed in the `run.py` file
-* Your dependencies must be placed in the `requirements.txt` file
-* Do not edit any of the other files or your code may not deploy properly
-
-## Creating the Heroku app
-
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
-
-1. `heroku/python`
-2. `heroku/nodejs`
-
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
-
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
-
-Connect your GitHub repository and deploy as normal.
-
-## Constraints
-
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
-
------
-Happy coding!
