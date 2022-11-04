@@ -52,6 +52,7 @@ def wait_more():
     time.sleep(3.5)
 
 
+# adapted from CI Love Sandwiches Walkthrough
 def get_student_name():
     """
     Gets student's first and last name from the user.
@@ -74,13 +75,14 @@ def get_student_name():
     return name_str
 
 
+# adapted from CI Love Sandwiches Walkthrough
 def validate_name(name_str):
     """
     Inside the try, checks for string values which meet the requirements for
     name values and raises TypeError if not.
     Converts the string values into a list of values.
-    Checks for 2 values with a minimum length of 3 characters and raises
-    ValueError if not.
+    Checks for 2 values with a min length of 3 and a max length of 15
+    characters and raises ValueError if not.
     """
     student_ws = SHEET.worksheet("student_list").get_all_records()
     try:
@@ -88,7 +90,7 @@ def validate_name(name_str):
         if not name_str:
             raise TypeError("No string found!")
         # if input inserted has other characters other than alpha, comma(,),
-        # period(.), apostrophe(') or hyphen(-)
+        # period(.), apostrophe('), hyphen(-) or whitespace
         if not re.search(r"^[a-zA-Z,.'\- ]+$", name_str):
             raise TypeError(f"{name_str} is not a name")
         # splits a string at the commas, into a list of strings
@@ -100,13 +102,18 @@ def validate_name(name_str):
             raise ValueError(
                 f"Two values are required. You have entered {len(name_data)}"
             )
-        # if the length of the values is less than 3 characters
+        # if the length of each value is less than 3 characters
         if min(len(x) for x in name_data) <= 2:
             raise ValueError(
                 "Input values must be longer than 2 characters")
+        # if the length of each value is more than 15 characters
+        if max(len(x) for x in name_data) >= 15:
+            raise ValueError(
+                "Input value must not be longer than 15 characters")
         # iterates through the dictionaries in the student worksheet list
         for d in student_ws:
-            # if the user values equal the values of the keys specified
+            # if the user values equal the values of any dict's Surname and
+            # Name keys
             # https://stackoverflow.com/questions/24204087/how-to-get-multiple-dictionary-values
             if [d.get(k) for k in ['Surname', 'Name']] == name_data:
                 print(f"\nLooks like {name_str} has already been "
@@ -115,10 +122,10 @@ def validate_name(name_str):
                                f"for another {name_str}? (Y/N)\n").strip()
                 if choice.capitalize() == 'Y':
                     return True
-                elif choice.capitalize() == 'N':
+                if choice.capitalize() == 'N':
                     return False
-                else:
-                    raise TypeError("Only 'Y' or 'N' are accepted ")
+                raise TypeError("Only 'Y' or 'N' are accepted ")
+
     except TypeError as te:
         con.print(f"\nInvalid string: {te}, please enter the surname "
                   "and name again.\n", style="bold bright_red")
@@ -154,7 +161,7 @@ def get_subjects():
     while True:
         con.print(" Option A: [cyan1]Science[/cyan1] or [cyan1]Music[/cyan1].")
         option_a = input("Enter subject here: \n").title()
-        # calls the validate function with the args for the first option 
+        # calls the validate function with the args for the first option
         if validate_subjects(option_a, "Science, Music"):
             # calls and assigns the returns of the helper function
             option_a = get_full_subject(option_a, "Science, Music")
@@ -198,12 +205,14 @@ def validate_subjects(user_value, option_str):
         # if the user input is not one or part of the option string
         if user_value not in option_str:
             raise ValueError(f"{user_value} is not an option")
+
     except ValueError as e:
         con.print(
             f"Invalid data: {e}. Please type in one of the "
             "options listed.\n", style="bold bright_red")
         wait()
         return False
+
     return True
 
 
@@ -253,7 +262,7 @@ def create_list(entry, names, subjects, totals):
 
 def books_total(subjects, names):
     """
-    Checks if given optional subjects exist in worksheet.
+    Matches the given optional subjects with those in the book worksheet.
     Prints out the relevant books for both optional and compulsory
     subjects. Adds up the book prices and prints the total cost
     to the terminal.
@@ -331,6 +340,8 @@ def print_num_of_student_list():
     student_ws = SHEET.worksheet("student_list").get_all_values()
     # gets the number of rows in the worksheet excluding the headings.
     student_num = (len(student_ws) - 1)
+    con.print("\n Retrieving the current number of students in the "
+              "worksheet...", style="light_green")
     print(f"    \nThere are currently {student_num} students listed in "
           "the worksheet.\n")
     wait()
@@ -342,8 +353,9 @@ def print_num_of_opt():
     Gets the total number of each optional subject chosen from the
     student worksheet and prints them in the terminal.
     """
-    con.print("\nFetching the number of students taking each option...\n", 
+    con.print("\n Retrieving the number of students taking each option...\n",
               style="light_green")
+    wait()
     sdt_ws = SHEET.worksheet("student_list").get_all_records()
     # counts the total number of times each subject appears in the list
     # of dictionaries adapted from:
@@ -354,6 +366,7 @@ def print_num_of_opt():
     french = sum(d.get('Option B') in 'French' for d in sdt_ws)
     engineering = sum(d.get('Option C') in 'Engineering' for d in sdt_ws)
     art = sum(d.get('Option C') in 'Art' for d in sdt_ws)
+
     print(f"    Science: {science}, Music: {music}")
     wait_less()
     print(f"    Business: {business}, French: {french}")
@@ -389,19 +402,23 @@ def print_sdt_list():
     Prints out the student worksheet in an easy to read format.
     """
     sdt_ws = SHEET.worksheet("student_list").get_all_records()
+    con.print("\n Retrieving and formatting the entries in the student "
+              "worksheet...\n", style="light_green")
+    wait()
     for d in sdt_ws:
-        con.print(f"{d['ID']}: [tan]{d['Surname']} {d['Name']}[/] - " 
+        con.print(f"{d['ID']}: [tan]{d['Surname']} {d['Name']}[/] - "
                   f"{d['Option A']}, {d['Option B']}, {d['Option C']}"
                   f" - [sea_green2]{d['Total Cost']}[/]\n")
-        wait_less() 
+        wait_less()
     menu()
 
 
 def menu():
     """
-    Gives the user the option to select other features of the program. 
+    Gives the user options to select other features of the program.
+    Calls relevant functions according to user input.
     Prints error message if the user input is not one of the option numbers
-    or letter X. 
+    or letter X.
     """
     print("-------------------------------")
     print("What would you like to do next?")
@@ -426,7 +443,7 @@ def menu():
         clear()
         print_num_of_opt()
     elif choice == "4":
-        # goes to helper function to get last entry and prints out booklist 
+        # goes to helper function to get last entry and prints out booklist
         # through the books_total function
         clear()
         get_last_entry()
@@ -438,10 +455,10 @@ def menu():
         clear()
         # https://learnpython.com/blog/end-python-script/#:~:text=Ctrl%20%2B%20C%20on%20Windows%20can,ends%20and%20raises%20an%20exception.
         sys.exit("\nYou have chosen to exit BookList Generator.\n "
-                 "          Thank You and GoodBye!")
+                 "\n          Thank You and GoodBye!")
     else:
         con.print(f"Invalid selection: {choice} \nPlease choose "
-                  "a number from the options above or 'X' " 
+                  "a number from the options above or 'X' "
                   "to exit.\n", style="bold bright_red")
         wait_more()
         clear()
@@ -452,7 +469,7 @@ def menu():
 
 def main():
     """
-    Runs all program functions
+    Runs main program functions
     """
     wait()
     names = get_student_name()

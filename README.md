@@ -50,7 +50,7 @@ Please refer to this [flowchart](assets/images/flowchart_booklist.png) for a vis
 
         - if an input has been submitted,
         - if the input contains two values (surname, name),
-        - if each of the two values is 3 or more characters long,
+        - if each of the two values is more than 3 and less than 15 charaters long, 
         - if each value consists of letters including: 
             - white space (e.g. Anne Marie) and 
             - special characters like apostrophy (e.g. O'Conor), 
@@ -125,72 +125,131 @@ ___
 
 **Start**
 
+* The program starts with a centered welcoming title in bright yellow.  The name 'BookList Generator' already specifies what the program is about. A brief description on how to interact with the progam is defined below the title.
+
+        Start Program
+![Start](assets/images/program_start.png)
+
 * The user is prompted to enter a student’s surname and name. A message is printed on the terminal explaining how this information needs to be entered.  An example is displayed in a different colour for emphasis.  
 
-![Start and Name Prompt]()
+        Name Prompt
+![Name Prompt](assets/images/name_prompt.png)
 
-* If an incorrect value is entered, an error message is displayed in red, explaining what is wrong with the value entered.  These actions are repeated until the user’s inputs are valid.
+* <details>
+    <summary>If an incorrect value is entered, an error message is displayed in red, explaining what is wrong with the value entered.  These actions are repeated until the user’s inputs are valid.</summary>
 
-![Error Messages]()
+        No Input 
+    ![No input message](assets/images/name_nostring.png)
 
-* The terminal is cleared and the subjects prompt is printed to the terminal. The user is asked to select the subjects chosen by entering at least the first three letters of the subjects. This provides a shortcut for the user. An example of what the input should look like is also displayed in a different colour.
+        Not a Name
+    ![Not a name message](assets/images/notaname.png)
 
-![Subjects Prompt]()
+        Name too short
+    ![Name too short message](assets/images/name_short.png)
 
-* When the user inputs valid data, the terminal displays multiple messages providing information on how the data is being processed.   
+        Name too long
+    ![Name too long message](assets/images/name_long.png)
+
+        Not two values
+    ![Not two values message](assets/images/name_oneval.png)
+
+</details>
+
+* If the name already exists in the worksheet the user is notified and asked if they want to input another student with the same name.  If they input `y` the same name is entered in the worksheet and the program continues.  If they input `n`, the surname and name prompt is repeated. If the input enters anything but `Y` or `n`, an error is displayed, the name is not added to the worksheet and the surname and name prompt is repeated.
+
+        Name already entered
+![Name already exists message](assets/images/name_duplicate.png)
+
+* When the name validation is complete, a message is displayed to confirm that a booklist is being compiled for said student.
+
+        Notification
+![Notification message](assets/images/name_notifictn.png)
+
+* The terminal is then cleared and the subjects prompt is printed to the terminal. The user is asked to select the subjects chosen by entering at least the first three letters of the subjects. This provides a shortcut for the user. An example of what the input should look like is also displayed in a different colour.
+
+        Subjects Prompt
+![Subjects Prompt](assets/images/subject_prompt.png)
+
+* <details>
+    <summary>Error messages are displayed in red, if the user inputs invalid data and the prompts are repeated until all inputs are valid.</summary> 
+
+        No Input
+    ![No Subject Input](assets/images/subject_nostring.png)
+
+        Invalid Data
+    ![Invalid Subject Input](assets/images/subjects_invalid.png)    
+
+</details>
+
+* When the user inputs valid data, a notification is printed with the subjects chosen.  
+
+        Notification
+![Subjects Notification](assets/images/subjects_notifictn.png)
+
 
 **Manage Student Worksheet**
 
 * The program parses the information given by the user into a correct format for the worksheet.
+
 * It pairs the subject choices from the user input, with the books and prices in the book list worksheet. It then calculates the books total price for the student and updates the Student Worksheet accordingly.
 
-![Book Worksheet]()
-![Student Worksheet]()
+        Book List Worksheet
+![Book Worksheet](assets/images/ws_booklist.png)
+
+        Student List Worksheet
+![Student Worksheet](/assets/images/ws_studentlist.png)
 
 **Print List of Books and Total Price**
 
+* The terminal is cleared and a message is displayed explaining how the data is being processed   
+
 * A list of the compulsory and optional books and the total price are printed to the terminal for the user.
 
-![Printed BookList]()
-
 * A message is printed to the terminal notifying the user that the worksheet has updated successfully.
+
+        Book List and Processing Messages
+![Processing information](assets/images/booklist_termprint.png)
 
 **Menu Prompt**
 
 The user is then prompted to select an option from a menu. This provides some extra features for the user to access data from the worksheet. The data has been formatted in order to be easier to read by the user. 
 
-![Menu Prompt]()
+![Menu Prompt](assets/images/menu_prompt.png)
+
+* If the user enters an invalid input, an error message is displayed in red specifying what went wrong and encourages the user to enter the correct value for their choice.
+
+        Error Message
+![Menu Error Message](assets/images/menu_error.png)
 
 * Option 1 - brings the user back to the start of the program to enter a new student entry without having to quit the program and start again.
 
-![Option 1 - result]()
+* Option 2 - provides a quick way for the user to check how many students have already been entered in the worksheet. The menu is displayed after a few seconds and the terminal is cleared after the user selects another option.  This is helpful for the user as the information requested stays on the terminal until the user chooses to move on.
 
-* Option 2 - provides a quick way for the user to check how many students have already been entered in the worksheet.
-
-![Option 2 - result]()
+        Option 2 Result
+![Option 2 - result](assets/images/option2_result.png)
 
 * Option 3 - provides the user with a quick and efficient way to check the totals for each optional subject.
 
-![Option 3 - result]()
+        Option 3 Result
+![Option 3 - result](assets/images/option3_result.png)
 
-* Option 4 - prints the latest entry's name and booklist including prices and total cost. At this point the terminal doesn't refresh automatically to give plenty of time for the user to take note of the books and prices.
-
-![Option 4 - result]()
+* Option 4 - prints the latest entry's name and booklist including prices and total cost. Once again, the terminal doesn't refresh automatically to give plenty of time for the user to take note of the books and prices.
 
 * Option 5 - prints the student worksheet with all the students' names, choices and total cost of books. This is helpful for the user to check which students have already been entered and what their choices are.
 
-![Option 5 - result]()
+        Option 5 Result
+![Option 5 - result](assets/images/print_sdtws.png)
 
 * Option X - gives the user the choice of quitting the program smoothly.
 
-![Option X - result]()
+![Option X - result](assets/images/exit_msg.png)
 
 
 ### Future Features
 
+* Add a delete feature in order for the user to be able to delete student entries from the student worksheet by their ID or index.
 * Add the functionality to create another worksheet with the total number of books to order for the year.
 * Add formats for books required by each student. Example, e-books, braille, large print.
-* Add a delete feature in order for the user to be able to delete student entries from the student worksheet by their ID or index.
 
 [Back to Top](#index---table-of-contents)
 ___
