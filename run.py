@@ -20,7 +20,7 @@ SCOPE = [
     "https://www.googleapis.com/auth/drive"
     ]
 
-# Adds credentials to the account and authorise the client sheet
+# Adds credentials to the account and authorises the client sheet
 CREDS = Credentials.from_service_account_file("creds.json")
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
@@ -288,7 +288,7 @@ def books_total(subjects, names):
                 con.print("Retrieving Compulsory Subjects BookList for "
                           f"[cyan1]{names}[/cyan1]\n")
                 wait_less()
-            # prints the values for compulsary subject, book and price
+            # prints the values for each compulsary subject, book and price
             con.print(f"    [yellow1]{d['Subject']}:[/yellow1] "
                       f"[italic]{d['Book']}[/italic], "
                       f"[green]€{d['Price']}[/green]")
