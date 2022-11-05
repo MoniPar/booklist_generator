@@ -407,11 +407,11 @@ def print_sdt_list():
     Prints out the student worksheet in an easy to read format.
     """
     sdt_ws = SHEET.worksheet("student_list").get_all_records()
-    con.print("\n Retrieving and formatting the entries in the student "
+    con.print("\n Retrieving and formatting the entries from the student "
               "worksheet...\n", style="light_green")
     wait()
     for d in sdt_ws:
-        con.print(f"{d['ID']}: [tan]{d['Surname']} {d['Name']}[/] - "
+        con.print(f"{d['ID']}: [tan]{d['Surname']} {d['Name']}[/tan] - "
                   f"{d['Option A']}, {d['Option B']}, {d['Option C']}"
                   f" - [sea_green2]{d['Total Cost']}[/]\n")
         wait_less()
