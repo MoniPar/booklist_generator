@@ -318,7 +318,7 @@ def books_total(subjects, names):
     wait_less()
     con.print(f"    Total Cost of BookList: "
               f"[green]€{format_totalcost}[/green]\n")
-    wait_more()
+    wait_less()
     return format_totalcost
 
 
@@ -331,7 +331,7 @@ def update_student_worksheet(student_data):
     student_ws = SHEET.worksheet("student_list")
     student_ws.append_row(student_data)
     print("Student worksheet updated successfully.\n")
-    wait()
+    wait_more()
     clear()
     menu()
 
@@ -346,6 +346,7 @@ def print_num_of_student_list():
     student_num = (len(student_ws) - 1)
     con.print("\n Retrieving the current number of students in the "
               "worksheet...", style="light_green")
+    wait()
     print(f"\n  There are currently {student_num} students listed in "
           "the worksheet.\n")
     wait()
@@ -428,6 +429,7 @@ def menu():
     print("-------------------------------")
     print("What would you like to do next?")
     print("-------------------------------")
+    wait_less()
     choice = input(" Add another student entry: 1\n "
                    "Get no. of students in worksheet: 2\n "
                    "Get no. of options chosen: 3\n"

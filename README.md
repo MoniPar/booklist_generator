@@ -50,7 +50,7 @@ Please refer to this [flowchart](assets/images/flowchart_booklist.png) for a vis
 
     - if an input has been submitted,
     - if the input contains two values (surname, name),
-    - if each of the two values is more than 3 and less than 15 charaters long, 
+    - if each of the two values is more than 3 and less than 15 characters long, 
     - if each value consists of letters including: 
         - white space (e.g. Anne Marie) and 
         - special characters like apostrophy (e.g. O'Conor), 
@@ -60,7 +60,7 @@ Please refer to this [flowchart](assets/images/flowchart_booklist.png) for a vis
   
 * If these requirements are not met, an error message is displayed showing what the error is and the prompt is repeated again.
 * The program also checks if the same surname and name has already been saved in the student worksheet. It then prompts the user to decide if they want to input another student by the same name or move on.
-    - NB: If the user submits an invalid input here, an error message is diplayed and asks the user to enter a surname and name again.  If they input the same name again they can then choose if they want to keep it or not.
+    - NB: If the user submits an invalid input here, an error message is displayed and asks the user to enter a surname and name again.  If they input the same name again they can then choose if they want to keep it or not.
     
 * The program then gives optional subjects for the user to choose from. They are given the option to type in only the first 3 or more letters of the subject name.
 
@@ -73,7 +73,7 @@ Please refer to this [flowchart](assets/images/flowchart_booklist.png) for a vis
 </details>
 
 * Errors are displayed if the user submits invalid input and each prompt is repeated again until all inputs are valid. 
-* Once this process is completed, the program adds the submitted information to the spreadsheet and calculates the total price of the books. 
+* Once this process is completed, the program matches the user submitted subject information with the relevant books from the book list worksheet and calculates the total price of the books. 
 * The data is printed in the terminal.  The student's surname, name, optional subjects chosen and the total price are saved to the student worksheet for record keeping.
 * <details>
     <summary>The user is then presented with a menu of options to choose from. If an invalid selection is made, an error message appears and the menu is presented again.</summary>
@@ -270,21 +270,21 @@ ___
 ### Frameworks, Libraries & Programs Used
 
 * [Google Spreadsheets](https://www.google.com/sheets/about/) - used as the external data store for the Students Information and Book List used for the project.
-* [Google Cloud](https://cloud.google.com/) - used to set up the following APIs 
+* [Google Cloud](https://cloud.google.com/) - used to set up the following APIs. 
 * [Google Drive API](https://developers.google.com/drive) - used to get credentials to securely access google files from the drive.
 * [Google Sheets API](https://developers.google.com/sheets/api) - used to access and update the spreadsheet used in this project with python code.
 * [gspread](https://docs.gspread.org/en/v5.4.0/) - a library of code used to access and update data in the Google Sheet.  Installed by using the command `pip3 install gspread google-auth` into the terminal.
-* [Google Auth](https://google-auth.readthedocs.io/en/master/) – used to set up the authentication needed to access the project from Google Cloud
-* [Rich Print](https://rich.readthedocs.io/en/stable/introduction.html#quick-start) - a module from the Rich library used as a drop-in replacement to do some basic syntax highlighting.
-* [Rich Console](https://rich.readthedocs.io/en/stable/console.html) - a class from the Rich library used to apply style to some print statements
-* [Time](https://realpython.com/python-sleep/) - the time module's function sleep used to suspend execution of calls and prints for a few seconds 
-* [OS](https://docs.python.org/3/library/os.html?highlight=system#os.system) - system method in the OS module was used to clear the terminal 
-* [Regular Expression (re)](https://docs.python.org/3/library/re.html) - a module used to validate names and surnames
-* [sys](https://docs.python.org/3/library/sys.html) - this module was used with the exit method to exit the program
-* [Lucidchart Flowcharts](https://www.lucidchart.com/) - used to create the flowcharts outlining the structure and functionality of the project
-* [Git](https://git-scm.com/) - used for version control 
+* [Google Auth](https://google-auth.readthedocs.io/en/master/) – used to set up the authentication needed to access the project from Google Cloud.
+* [Rich Print](https://rich.readthedocs.io/en/stable/introduction.html#quick-start) - a module from the Rich library used as a drop-in replacement to do some basic syntax highlighting. Installed by using the command `pip3 install rich` into the terminal.
+* [Rich Console](https://rich.readthedocs.io/en/stable/console.html) - a class from the Rich library used to apply style to some print statements.
+* [Time](https://realpython.com/python-sleep/) - the time module's function sleep, used to suspend execution of calls and prints for a few seconds. 
+* [OS](https://docs.python.org/3/library/os.html?highlight=system#os.system) - the system method in the OS module was used to clear the terminal. 
+* [Regular Expression (re)](https://docs.python.org/3/library/re.html) - a module used to validate names and surnames.
+* [sys](https://docs.python.org/3/library/sys.html) - this module was used with the exit method to exit the program.
+* [Lucidchart Flowcharts](https://www.lucidchart.com/) - used to create the basic flowchart outlining the structure and functionality of the project.
+* [Git](https://git-scm.com/) - used for version control. 
 * [GitHub](https://github.com/) - used as the repository for the project’s code after being pushed from Git.
-* [Heroku](https://www.heroku.com/platform) - used to deploy the application and provides an environment in which the code can execute
+* [Heroku](https://www.heroku.com/platform) - used to deploy the application and to provide an environment in which the code executes.
 
 [Back to Top](#index---table-of-contents)
 
@@ -526,12 +526,17 @@ ___
 
 ## Credits
 
+The following are the links to the code snippets I used in my program as commented in the run.py file.
+
 * [Looping through a list of dictionaries](https://stackoverflow.com/questions/51883103/looping-through-a-list-of-dictionaries-to-find-string-match-in-value) - used in `books_total()`
 * [Python Print 2 decimal places](https://pythonguides.com/python-print-2-decimal-places/) used in `books_total()`
 * [Python string contains](https://www.digitalocean.com/community/tutorials/python-string-contains) - used in `validate_subjects()`
 * [How to get multiple dictionary values](https://stackoverflow.com/questions/24204087/how-to-get-multiple-dictionary-values) used in `validate_name()`
 * [How to end python script](https://learnpython.com/blog/end-python-script/#:~:text=Ctrl%20%2B%20C%20on%20Windows%20can,ends%20and%20raises%20an%20exception.) used in `menu()`
 * [How to count elements based on key of dictionary](https://stackoverflow.com/questions/41658185/python-list-of-dictionaries-count-elements-based-on-key-of-dictionary) used in `print_num_of_opt()`
+
+The following web resources were used in conjunction with Code Institute's learning material, challenges and walkthrough project to help me with the development of this project. 
+
 * [The Official Homepage of Python Programming Language](https://www.python.org/)
 * [How to use Python dictionary of dictionaries](https://linuxhint.com/python_dictionary_of_dictionaries/)
 * [Python Programming Language](https://www.geeksforgeeks.org/python-programming-language/?ref=shm)
@@ -551,7 +556,11 @@ ___
 
 ## Acknowledgments 
 
-
+My tutor Samantha Dartnall for the encouragement and helpful tips she shared with me throughout this project. 
+Tutor support for helping me during the deployment stage.
+Student Support Kasia Bogucka for always being there to help with words of encouragement.
+The Slack community for asking questions and giving helpful replies.
+Leon and Austen for testing my deployed project, catching things which I didn't and for all the moral support.   
 
 ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
 
